@@ -6,7 +6,7 @@ require_once 'head.php';
 
 <!-- Navbar Start - FULL WIDTH -->
 <div class="fixed-top" style="left: 0; right: 0; width: 100%;"> <!-- Full width, fixed -->
-    <div class="container-fluid px-0"> <!-- Hapus padding container agar mentok ke tepi -->
+    <div class="container px-0"> <!-- Hapus padding container agar mentok ke tepi -->
         <nav class="navbar navbar-light bg-white navbar-expand-xl px-4 px-lg-5"> <!-- Padding hanya di dalam nav -->
             <a href="index.php" class="navbar-brand">
                 <h1 class="text-primary display-6 mb-0">DariKebun</h1>

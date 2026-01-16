@@ -4,7 +4,7 @@
 
     <!-- Footer Start - FULL WIDTH -->
     <div class="container-fluid bg-dark text-white-50 footer pt-5 mt-5 px-0">
-        <div class="container-fluid py-5">
+        <div class="container py-5">
             <div class="pb-4 mb-4" style="border-bottom: 1px solid rgba(226, 175, 24, 0.5);">
                 <div class="row g-4 justify-content-center">
                     <div class="col-lg-3 col-md-6">
@@ -77,7 +77,7 @@
 
     <!-- Copyright Start - FULL WIDTH -->
     <div class="container-fluid copyright bg-dark py-4 px-0">
-        <div class="container-fluid">
+        <div class="container">
             <div class="row">
                 <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
                     <span class="text-light">

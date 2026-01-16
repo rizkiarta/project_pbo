@@ -8,7 +8,7 @@ $current_page = 'home';
 
 <!-- Hero Start - FULL WIDTH -->
 <div class="container-fluid py-5 mb-5 hero-header px-0">
-    <div class="container-fluid py-5 px-0">
+    <div class="container py-5 px-0">
         <div class="row g-5 align-items-center">
             <div class="col-md-12 col-lg-7 px-5">
                 <h4 class="mb-3 text-secondary">100% Organik</h4>
@@ -42,7 +42,7 @@ $current_page = 'home';
 <!-- Hero End -->
 
 <!-- Best Seller Products -->
-<div class="container-fluid fruite py-5">
+<div class="container fruite py-5">
     <div class="container-fluid py-5"> 
         <div class="tab-class text-center">
             <div class="row g-6 mb-5 justify-content-center">
@@ -108,7 +108,7 @@ $current_page = 'home';
 
 <!-- Banner Section-->
 <div class="container-fluid banner bg-secondary my-5 px-0">
-    <div class="container-fluid py-5">
+    <div class="container py-5">
         <div class="row g-4 align-items-center">
             <div class="col-lg-6 px-5">
                 <div class="py-4">
@@ -137,7 +137,7 @@ $current_page = 'home';
 
 <!-- Vegetables Carousel - FULL WIDTH -->
 <div class="container-fluid vesitable py-5 px-0">
-    <div class="container-fluid py-5">
+    <div class="container py-5">
         <h1 class="mb-5 text-center">Fresh Organic Vegetables</h1>
         <div class="owl-carousel vegetable-carousel justify-content-center">
             <?php
@@ -182,7 +182,7 @@ $current_page = 'home';
 
 <!-- Fact Start - FULL WIDTH -->
 <div class="container-fluid py-5 px-0">
-    <div class="container-fluid">
+    <div class="container">
         <div class="bg-light p-5 rounded">
             <div class="row g-4 justify-content-center">
                 <div class="col-md-6 col-lg-6 col-xl-3">
@@ -221,7 +221,7 @@ $current_page = 'home';
 
 <!-- Testimonial Start - FULL WIDTH -->
 <div class="container-fluid testimonial py-5 px-0">
-    <div class="container-fluid py-5">
+    <div class="container py-5">
         <div class="testimonial-header text-center">
             <h4 class="text-primary">Our Testimonial</h4>
             <h1 class="display-5 mb-5 text-dark">Our Client Saying!</h1>
