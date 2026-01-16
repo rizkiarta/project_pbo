@@ -275,6 +275,8 @@
 
 .fruite .fruite-item {
     height: 100%;
+    display: flex;
+    flex-direction: column;
     transition: 0.5s;
 }
 .fruite .fruite-item:hover {
@@ -326,7 +328,7 @@
     overflow: hidden;
     transition: 0.5s;
     border-radius: 10px 10px 0 0;
-        height: 200px;
+    height: 200px;
 }
 
 .vesitable .vesitable-item .vesitable-img img {

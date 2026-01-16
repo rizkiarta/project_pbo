@@ -4,7 +4,7 @@
 function getProducts($limit = null, $category_slug = null, $offset = 0) {
     global $connect;
 
-    $sql = "SELECT p.*, c.name AS category_name, c.slug AS category_slug 
+    $sql = "SELECT p.*, c.name AS category_name, c.slug 
             FROM products p 
             LEFT JOIN categories c ON p.category_id = c.id";
 
@@ -51,7 +51,7 @@ function getProducts($limit = null, $category_slug = null, $offset = 0) {
 function getProductById($id) {
     global $connect;
 
-    $sql = "SELECT p.*, c.name AS category_name, c.slug AS category_slug 
+    $sql = "SELECT p.*, c.name AS category_name, c.slug 
             FROM products p 
             LEFT JOIN categories c ON p.category_id = c.id 
             WHERE p.id = ?";
@@ -80,7 +80,7 @@ function getCategories() {
 }
 
 // Fungsi: Hitung jumlah produk di kategori tertentu
-function countProductsInCategory($category_slug) {
+function countProductsInCategory($slug) {
     global $connect;
 
     $sql = "SELECT COUNT(*) as total 
@@ -89,7 +89,7 @@ function countProductsInCategory($category_slug) {
             WHERE c.slug = ?";
 
     $stmt = mysqli_prepare($connect, $sql);
-    mysqli_stmt_bind_param($stmt, "s", $category_slug);
+    mysqli_stmt_bind_param($stmt, "s", $slug);
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
     $row = mysqli_fetch_assoc($result);
@@ -105,8 +105,9 @@ function countAllProducts() {
     return $row['total'];
 }
 
+// ========== FUNGSI CART (MIXED: SESSION & DATABASE) ==========
 
-// Fungsi untuk guest: tambah produk ke keranjang pakai session
+// Fungsi universal: tambah ke keranjang
 function addToCart($product_id, $quantity = 1) {
     $product_id = (int)$product_id;
     $quantity = max(1, (int)$quantity);
@@ -118,55 +119,128 @@ function addToCart($product_id, $quantity = 1) {
         return false;
     }
 
-    // Inisialisasi keranjang kalau belum ada
-    if (!isset($_SESSION['cart'])) {
-        $_SESSION['cart'] = [];
+    // Cek stok
+    if ($product['stock'] < $quantity) {
+        $_SESSION['message'] = "Stok tidak mencukupi! Stok tersedia: " . $product['stock'];
+        return false;
     }
 
-    // Tambah atau update quantity
-    if (isset($_SESSION['cart'][$product_id])) {
-        $_SESSION['cart'][$product_id] += $quantity;
-    } else {
-        $_SESSION['cart'][$product_id] = $quantity;
+    // Jika user sudah login, simpan ke database
+    if (isset($_SESSION['user_id'])) {
+        global $connect;
+        
+        // Cek apakah produk sudah ada di cart user
+        $sql = "SELECT id, quantity FROM cart WHERE user_id = ? AND product_id = ?";
+        $stmt = mysqli_prepare($connect, $sql);
+        mysqli_stmt_bind_param($stmt, "ii", $_SESSION['user_id'], $product_id);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        $existing = mysqli_fetch_assoc($result);
+        
+        if ($existing) {
+            // Update quantity
+            $new_qty = $existing['quantity'] + $quantity;
+            $sql = "UPDATE cart SET quantity = ?, updated_at = NOW() WHERE id = ?";
+            $stmt = mysqli_prepare($connect, $sql);
+            mysqli_stmt_bind_param($stmt, "ii", $new_qty, $existing['id']);
+            mysqli_stmt_execute($stmt);
+        } else {
+            // Insert baru
+            $sql = "INSERT INTO cart (user_id, product_id, quantity, created_at, updated_at) 
+                    VALUES (?, ?, ?, NOW(), NOW())";
+            $stmt = mysqli_prepare($connect, $sql);
+            mysqli_stmt_bind_param($stmt, "iii", $_SESSION['user_id'], $product_id, $quantity);
+            mysqli_stmt_execute($stmt);
+        }
+    } 
+    // Jika guest, simpan di session
+    else {
+        // Inisialisasi keranjang kalau belum ada
+        if (!isset($_SESSION['cart'])) {
+            $_SESSION['cart'] = [];
+        }
+
+        // Tambah atau update quantity
+        if (isset($_SESSION['cart'][$product_id])) {
+            $_SESSION['cart'][$product_id] += $quantity;
+        } else {
+            $_SESSION['cart'][$product_id] = $quantity;
+        }
     }
 
     $_SESSION['message'] = "Produk berhasil ditambahkan ke keranjang!";
     return true;
 }
 
-// Ambil item keranjang dari session (untuk guest)
+// Fungsi universal: ambil item keranjang
 function getCartItems() {
-    if (empty($_SESSION['cart'])) {
-        return [];
-    }
-
-    global $connect;
-    $ids = array_keys($_SESSION['cart']);
-    $placeholders = str_repeat('?,', count($ids) - 1) . '?';
-    $types = str_repeat('i', count($ids));
-
-    $sql = "SELECT id, name, price, image FROM products WHERE id IN ($placeholders)";
-    $stmt = mysqli_prepare($connect, $sql);
-    mysqli_stmt_bind_param($stmt, $types, ...$ids);
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
-
     $items = [];
-    while ($product = mysqli_fetch_assoc($result)) {
-        $product['quantity'] = $_SESSION['cart'][$product['id']];
-        $product['subtotal'] = $product['price'] * $product['quantity'];
-        $items[] = $product;
+    
+    // Jika user login, ambil dari database
+    if (isset($_SESSION['user_id'])) {
+        global $connect;
+        
+        $sql = "SELECT c.id as cart_id, p.id, p.name, p.price, p.image, c.quantity 
+                FROM cart c 
+                JOIN products p ON c.product_id = p.id 
+                WHERE c.user_id = ?";
+        $stmt = mysqli_prepare($connect, $sql);
+        mysqli_stmt_bind_param($stmt, "i", $_SESSION['user_id']);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        
+        while ($row = mysqli_fetch_assoc($result)) {
+            $row['subtotal'] = $row['price'] * $row['quantity'];
+            $items[] = $row;
+        }
+    } 
+    // Jika guest, ambil dari session
+    else if (!empty($_SESSION['cart'])) {
+        global $connect;
+        $ids = array_keys($_SESSION['cart']);
+        
+        if (empty($ids)) return [];
+        
+        $placeholders = str_repeat('?,', count($ids) - 1) . '?';
+        $types = str_repeat('i', count($ids));
+
+        $sql = "SELECT id, name, price, image FROM products WHERE id IN ($placeholders)";
+        $stmt = mysqli_prepare($connect, $sql);
+        mysqli_stmt_bind_param($stmt, $types, ...$ids);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+
+        while ($product = mysqli_fetch_assoc($result)) {
+            $product['quantity'] = $_SESSION['cart'][$product['id']];
+            $product['subtotal'] = $product['price'] * $product['quantity'];
+            $items[] = $product;
+        }
     }
 
     return $items;
 }
 
-// Hitung jumlah item di keranjang (badge)
+// Fungsi universal: hitung jumlah item di keranjang
 function getCartCount() {
-    return isset($_SESSION['cart']) ? array_sum($_SESSION['cart']) : 0;
+    $total = 0;
+    
+    if (isset($_SESSION['user_id'])) {
+        global $connect;
+        $sql = "SELECT SUM(quantity) as total FROM cart WHERE user_id = ?";
+        $stmt = mysqli_prepare($connect, $sql);
+        mysqli_stmt_bind_param($stmt, "i", $_SESSION['user_id']);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        $row = mysqli_fetch_assoc($result);
+        $total = $row['total'] ?? 0;
+    } else if (isset($_SESSION['cart'])) {
+        $total = array_sum($_SESSION['cart']);
+    }
+    
+    return $total;
 }
 
-// Hitung total harga
+// Fungsi universal: hitung total harga keranjang
 function getCartTotal() {
     $items = getCartItems();
     $total = 0;
@@ -176,21 +250,79 @@ function getCartTotal() {
     return $total;
 }
 
-// Hapus item
+// Fungsi universal: hapus item dari keranjang
 function removeFromCart($product_id) {
-    if (isset($_SESSION['cart'][$product_id])) {
+    $product_id = (int)$product_id;
+    
+    if (isset($_SESSION['user_id'])) {
+        global $connect;
+        $sql = "DELETE FROM cart WHERE user_id = ? AND product_id = ?";
+        $stmt = mysqli_prepare($connect, $sql);
+        mysqli_stmt_bind_param($stmt, "ii", $_SESSION['user_id'], $product_id);
+        mysqli_stmt_execute($stmt);
+    } else if (isset($_SESSION['cart'][$product_id])) {
         unset($_SESSION['cart'][$product_id]);
     }
 }
 
-// Kosongkan keranjang
-function clearCart() {
-    unset($_SESSION['cart']);
+// Fungsi universal: update quantity item
+function updateCartQuantity($product_id, $quantity) {
+    $product_id = (int)$product_id;
+    $quantity = max(0, (int)$quantity);
+    
+    if ($quantity == 0) {
+        removeFromCart($product_id);
+        return;
+    }
+    
+    // Cek stok
+    $product = getProductById($product_id);
+    if ($product && $product['stock'] < $quantity) {
+        $_SESSION['message'] = "Stok tidak mencukupi! Stok tersedia: " . $product['stock'];
+        return;
+    }
+    
+    if (isset($_SESSION['user_id'])) {
+        global $connect;
+        
+        if ($quantity > 0) {
+            $sql = "UPDATE cart SET quantity = ?, updated_at = NOW() WHERE user_id = ? AND product_id = ?";
+            $stmt = mysqli_prepare($connect, $sql);
+            mysqli_stmt_bind_param($stmt, "iii", $quantity, $_SESSION['user_id'], $product_id);
+            mysqli_stmt_execute($stmt);
+        } else {
+            removeFromCart($product_id);
+        }
+    } else {
+        if ($quantity > 0) {
+            $_SESSION['cart'][$product_id] = $quantity;
+        } else {
+            unset($_SESSION['cart'][$product_id]);
+        }
+    }
 }
 
+// Fungsi universal: kosongkan keranjang
+function clearCart() {
+    if (isset($_SESSION['user_id'])) {
+        global $connect;
+        $sql = "DELETE FROM cart WHERE user_id = ?";
+        $stmt = mysqli_prepare($connect, $sql);
+        mysqli_stmt_bind_param($stmt, "i", $_SESSION['user_id']);
+        mysqli_stmt_execute($stmt);
+    } else {
+        unset($_SESSION['cart']);
+    }
+}
 
+// Fungsi: Cek apakah user sudah login
+function isLoggedIn() {
+    return isset($_SESSION['user_id']);
+}
 
+// Fungsi: Cek apakah user adalah admin
+function isAdmin() {
+    return isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
+}
 
 ?>
-
-
