@@ -46,7 +46,7 @@ $current_page = 'home';
     <div class="container-fluid py-5"> 
         <div class="tab-class text-center">
             <div class="row g-6 mb-5 justify-content-center">
-                <div class="col-lg-8 text-start">
+                <div class="col-lg-8 text-center">
                     <h1>Our Best Seller Products</h1>
                 </div>
             </div>
@@ -58,7 +58,8 @@ $current_page = 'home';
             ?>
 
             <div class="tab-content">
-                <div id="tab-1" class="tab-pane fade show p-0 active">
+                <a href="detail_product.php">
+                                    <div id="tab-1" class="tab-pane fade show p-0 active">
                     <div class="row g-5 justify-content-center"> 
                         <div class="col-11 col-xl-12"> 
                             <div class="row g-4">
@@ -100,6 +101,7 @@ $current_page = 'home';
                         </div>
                     </div>
                 </div>
+                </a>
             </div>
         </div>
     </div>

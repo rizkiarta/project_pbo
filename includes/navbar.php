@@ -19,7 +19,7 @@ require_once 'head.php';
                 <div class="navbar-nav mx-auto">
                     <a href="index.php" class="nav-item nav-link <?php echo ($current_page == 'home') ? 'active' : ''; ?>">Home</a>
                     <a href="shop.php" class="nav-item nav-link <?php echo ($current_page == 'shop') ? 'active' : ''; ?>">Shop</a>
-                    <a href="about.php" class="nav-item nav-link <?php echo ($current_page == 'about') ? 'active' : ''; ?>">About</a>
+                    <a href="about.php" class="nav-item nav-link <?php echo ($current_page == 'about') ? 'active' : ''; ?>">Pesanan</a>
                     <a href="contact.php" class="nav-item nav-link <?php echo ($current_page == 'contact') ? 'active' : ''; ?>">Contact</a>
                 </div>
                 <div class="d-flex align-items-center m-3 me-0">
