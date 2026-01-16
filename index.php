@@ -43,7 +43,7 @@ $current_page = 'home';
 
 <!-- Best Seller Products -->
 <div class="container fruite py-5">
-    <div class="container-fluid py-5"> 
+    <div class="container-fluid py-5">
         <div class="tab-class text-center">
             <div class="row g-6 mb-5 justify-content-center">
                 <div class="col-lg-8 text-center">
@@ -58,50 +58,50 @@ $current_page = 'home';
             ?>
 
             <div class="tab-content">
-                <a href="detail_product.php">
-                                    <div id="tab-1" class="tab-pane fade show p-0 active">
-                    <div class="row g-5 justify-content-center"> 
-                        <div class="col-11 col-xl-12"> 
-                            <div class="row g-4">
-                                <?php if (!empty($products)): ?>
-                                    <?php foreach ($products as $product): ?>
-                                        <div class="col-md-6 col-lg-6 col-xl-3">
-                                            <div class="rounded position-relative fruite-item">
-                                                <div class="fruite-img">
-                                                    <img src="<?php echo htmlspecialchars($product['image']); ?>"
-                                                         class="img-fluid w-100 rounded-top"
-                                                         alt="<?php echo htmlspecialchars($product['name']); ?>">
-                                                </div>
-                                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute"
-                                                     style="top: 10px; left: 10px;">
-                                                    <?php echo htmlspecialchars($product['category_name']); ?>
-                                                </div>
-                                                <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                    <h4><?php echo htmlspecialchars($product['name']); ?></h4>
-                                                    <p><?php echo htmlspecialchars($product['description'] ?? 'Produk organik segar berkualitas tinggi.'); ?></p>
-                                                    <div class="d-flex justify-content-between flex-lg-wrap">
-                                                        <p class="text-dark fs-5 fw-bold mb-0">
-                                                            Rp<?php echo number_format($product['price']); ?>
-                                                        </p>
-                                                        <button type="button" class="btn border border-secondary rounded-pill px-3 text-primary add-to-cart-btn"
+                    <div id="tab-1" class="tab-pane fade show p-0 active">
+                        <div class="row g-5 justify-content-center">
+                            <div class="col-11 col-xl-12">
+                                <div class="row g-4">
+                                    <?php if (!empty($products)): ?>
+                                        <?php foreach ($products as $product): ?>
+                                            <div class="col-md-6 col-lg-6 col-xl-3">
+                                                <div class="rounded position-relative fruite-item">
+                                                    <a href="detail_product.php?id=<?php echo $product['id']; ?>">
+                                                    <div class="fruite-img">
+                                                        <img src="<?php echo htmlspecialchars($product['image']); ?>"
+                                                            class="img-fluid w-100 rounded-top"
+                                                            alt="<?php echo htmlspecialchars($product['name']); ?>">
+                                                    </div>
+                                                    <div class="text-white bg-secondary px-3 py-1 rounded position-absolute"
+                                                        style="top: 10px; left: 10px;">
+                                                        <?php echo htmlspecialchars($product['category_name']); ?>
+                                                    </div>
+                                                    </a>
+                                                    <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+                                                        <h4><?php echo htmlspecialchars($product['name']); ?></h4>
+                                                        <p><?php echo htmlspecialchars($product['description'] ?? 'Produk organik segar berkualitas tinggi.'); ?></p>
+                                                        <div class="d-flex justify-content-between flex-lg-wrap">
+                                                            <p class="text-dark fs-5 fw-bold mb-0">
+                                                                Rp<?php echo number_format($product['price']); ?>
+                                                            </p>
+                                                            <button type="button" class="btn border border-secondary rounded-pill px-3 text-primary add-to-cart-btn"
                                                                 data-product-id="<?php echo $product['id']; ?>">
-                                                            <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to Cart
-                                                        </button>
+                                                                <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to Cart
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                        <?php endforeach; ?>
+                                    <?php else: ?>
+                                        <div class="col-12 text-center">
+                                            <p>Belum ada produk tersedia.</p>
                                         </div>
-                                    <?php endforeach; ?>
-                                <?php else: ?>
-                                    <div class="col-12 text-center">
-                                        <p>Belum ada produk tersedia.</p>
-                                    </div>
-                                <?php endif; ?>
+                                    <?php endif; ?>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                </a>
             </div>
         </div>
     </div>
@@ -138,25 +138,27 @@ $current_page = 'home';
 <!-- Banner End -->
 
 <!-- Vegetables Carousel - FULL WIDTH -->
-<div class="container-fluid vesitable py-5 px-0">
+<div class="container-fluid vesitable py-5">
     <div class="container py-5">
-        <h1 class="mb-5 text-center">Fresh Organic Vegetables</h1>
+        <h1 class="mb-0 text-center">Fresh Organic Vegetables</h1>
         <div class="owl-carousel vegetable-carousel justify-content-center">
             <?php
             $vegetables = getProducts(8, 'vegetables');
             if (!empty($vegetables)):
                 foreach ($vegetables as $product):
             ?>
-                    <div class="border border-primary rounded position-relative vesitable-item mx-3">
+                    <div class="border border-primary rounded position-relative vesitable-item">
+                        <a href="detail_product.php?id=<?php echo $product['id']; ?>">
                         <div class="vesitable-img">
                             <img src="<?php echo htmlspecialchars($product['image']); ?>"
-                                 class="img-fluid w-100 rounded-top"
-                                 alt="<?php echo htmlspecialchars($product['name']); ?>">
+                                class="img-fluid w-100 rounded-top"
+                                alt="<?php echo htmlspecialchars($product['name']); ?>">
                         </div>
                         <div class="text-white bg-primary px-3 py-1 rounded position-absolute"
-                             style="top: 10px; right: 10px;">
+                            style="top: 10px; right: 10px;">
                             <?php echo htmlspecialchars($product['category_name']); ?>
                         </div>
+                        </a>
                         <div class="p-4 rounded-bottom">
                             <h4><?php echo htmlspecialchars($product['name']); ?></h4>
                             <p><?php echo htmlspecialchars($product['description'] ?? 'Produk organik segar berkualitas tinggi.'); ?></p>
@@ -165,11 +167,12 @@ $current_page = 'home';
                                     Rp<?php echo number_format($product['price']); ?>
                                 </p>
                                 <button type="button" class="btn border border-secondary rounded-pill px-3 text-primary add-to-cart-btn"
-                                        data-product-id="<?php echo $product['id']; ?>">
+                                    data-product-id="<?php echo $product['id']; ?>">
                                     <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to Cart
                                 </button>
                             </div>
                         </div>
+
                     </div>
             <?php
                 endforeach;
