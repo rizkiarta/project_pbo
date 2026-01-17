@@ -2,7 +2,7 @@
 require_once 'includes/functions.php';
 require_once 'includes/head.php';
 
-// Fix Navbar
+// Cek navbar
 if (file_exists('includes/navbar.php')) {
     require_once 'includes/navbar.php';
 }
@@ -44,34 +44,47 @@ $items = getCartItems();
                     <tbody>
                         <?php foreach ($items as $item): ?>
                         <tr>
-                            <td>
+                            <td style="width: 100px;">
                                 <div class="d-flex align-items-center">
-                                    <img src="img/<?php echo $item['image']; ?>" 
+                                    <img src="<?php echo $item['image']; ?>" 
                                          class="img-fluid rounded-circle" 
                                          style="width: 80px; height: 80px; object-fit: cover;" 
                                          alt="">
                                 </div>
                             </td>
                             
-                            <td><p class="mb-0 mt-4"><?php echo $item['name']; ?></p></td>
-                            <td><p class="mb-0 mt-4">Rp <?php echo number_format($item['price']); ?></p></td>
+                            <td>
+                                <p class="mb-0 mt-4"><?php echo $item['name']; ?></p>
+                            </td>
                             
                             <td>
-                                <div class="input-group quantity mt-4" style="width: 100px;">
+                                <p class="mb-0 mt-4">Rp <?php echo number_format($item['price']); ?></p>
+                            </td>
+                            
+                            <td>
+                                <div class="input-group mt-4" style="width: 100px;">
                                     <div class="input-group-btn">
-                                        <a href="update_quantity.php?id=<?php echo $item['product_id']; ?>&action=decrease" class="btn btn-sm btn-minus rounded-circle bg-light border"><i class="fa fa-minus"></i></a>
+                                        <a href="update_quantity.php?id=<?php echo $item['product_id']; ?>&action=decrease" class="btn btn-sm btn-kurang rounded-circle bg-light border">
+                                            <i class="fa fa-minus"></i>
+                                        </a>
                                     </div>
                                     <input type="text" class="form-control form-control-sm text-center border-0" value="<?php echo $item['quantity']; ?>" readonly>
                                     <div class="input-group-btn">
-                                        <a href="update_quantity.php?id=<?php echo $item['product_id']; ?>&action=increase" class="btn btn-sm btn-plus rounded-circle bg-light border"><i class="fa fa-plus"></i></a>
+                                        <a href="update_quantity.php?id=<?php echo $item['product_id']; ?>&action=increase" class="btn btn-sm btn-tambah rounded-circle bg-light border">
+                                            <i class="fa fa-plus"></i>
+                                        </a>
                                     </div>
                                 </div>
                             </td>
                             
-                            <td><p class="mb-0 mt-4">Rp <?php echo number_format($item['subtotal']); ?></p></td>
+                            <td>
+                                <p class="mb-0 mt-4">Rp <?php echo number_format($item['subtotal']); ?></p>
+                            </td>
                             
                             <td>
-                                <a href="update_quantity.php?id=<?php echo $item['product_id']; ?>&action=delete" class="btn btn-md rounded-circle bg-light border mt-4" onclick="return confirm('Hapus?')"><i class="fa fa-times text-danger"></i></a>
+                                <a href="update_quantity.php?id=<?php echo $item['product_id']; ?>&action=delete" class="btn btn-md rounded-circle bg-light border mt-4" onclick="return confirm('Yakin hapus?')">
+                                    <i class="fa fa-times text-danger"></i>
+                                </a>
                             </td>
                         </tr>
                         <?php endforeach; ?>
@@ -83,10 +96,19 @@ $items = getCartItems();
                     <div class="col-sm-8 col-md-7 col-lg-6 col-xl-4">
                         <div class="bg-light rounded p-4">
                             <div class="d-flex justify-content-between mb-4">
-                                <h5 class="mb-0 me-4">Total:</h5>
-                                <p class="mb-0">Rp <?php echo number_format(getGrandTotal()); ?></p>
+                                <h5 class="mb-0 me-4">Subtotal:</h5>
+                                <p class="mb-0">Rp <?php echo number_format(getCartTotal()); ?></p>
                             </div>
-                            <a href="checkout.php" class="btn btn-primary rounded-pill px-4 py-3 w-100">Checkout</a>
+                            <div class="d-flex justify-content-between mb-4">
+                                <h5 class="mb-0 me-4">Ongkir:</h5>
+                                <p class="mb-0">Rp 15,000</p>
+                            </div>
+                            <div class="d-flex justify-content-between border-top pt-4">
+                                <h5 class="mb-0 me-4">Grand Total:</h5>
+                                <p class="mb-0">Rp <?php echo number_format(getCartTotal() + 15000); ?></p>
+                            </div>
+
+                            <a href="checkout.php" class="btn btn-primary rounded-pill px-4 py-3 w-100 mt-4">Checkout</a>
                         </div>
                     </div>
                 </div>

@@ -9,11 +9,10 @@ if (!isLoggedIn()) {
     exit;
 }
 
- $current_page = 'home';
+$current_page = 'home';
 ?>
 <?php include 'includes/navbar.php'; ?>
 
-<!-- Hero Start - FULL WIDTH -->
 <div class="container-fluid py-5 mb-5 hero-header px-0">
     <div class="container py-5 px-0">
         <div class="row g-5 align-items-center">
@@ -46,9 +45,6 @@ if (!isLoggedIn()) {
         </div>
     </div>
 </div>
-<!-- Hero End -->
-
-<!-- Best Seller Products -->
 <div class="container fruite py-5">
     <div class="container-fluid py-5">
         <div class="tab-class text-center">
@@ -91,10 +87,15 @@ if (!isLoggedIn()) {
                                                             <p class="text-dark fs-5 fw-bold mb-0">
                                                                 Rp<?php echo number_format($product['price']); ?>
                                                             </p>
-                                                            <button type="button" class="btn border border-secondary rounded-pill px-3 text-primary add-to-cart-btn"
-                                                                data-product-id="<?php echo $product['id']; ?>">
-                                                                <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to Cart
-                                                            </button>
+                                                            
+                                                            <form action="add_to_cart.php" method="POST">
+                                                                <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+                                                                <input type="hidden" name="quantity" value="1">
+                                                                <button type="submit" class="btn border border-secondary rounded-pill px-3 text-primary">
+                                                                    <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to Cart
+                                                                </button>
+                                                            </form>
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -113,9 +114,6 @@ if (!isLoggedIn()) {
         </div>
     </div>
 </div>
-<!-- Best Seller End -->
-
-<!-- Banner Section-->
 <div class="container-fluid banner bg-secondary my-5 px-0">
     <div class="container py-5">
         <div class="row g-4 align-items-center">
@@ -142,9 +140,6 @@ if (!isLoggedIn()) {
         </div>
     </div>
 </div>
-<!-- Banner End -->
-
-<!-- Vegetables Carousel - FULL WIDTH -->
 <div class="container-fluid vesitable py-5">
     <div class="container py-5">
         <h1 class="mb-0 text-center">Fresh Organic Vegetables</h1>
@@ -173,10 +168,15 @@ if (!isLoggedIn()) {
                                 <p class="text-dark fs-5 fw-bold mb-0">
                                     Rp<?php echo number_format($product['price']); ?>
                                 </p>
-                                <button type="button" class="btn border border-secondary rounded-pill px-3 text-primary add-to-cart-btn"
-                                    data-product-id="<?php echo $product['id']; ?>">
-                                    <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to Cart
-                                </button>
+                                
+                                <form action="add_to_cart.php" method="POST">
+                                    <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+                                    <input type="hidden" name="quantity" value="1">
+                                    <button type="submit" class="btn border border-secondary rounded-pill px-3 text-primary">
+                                        <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to Cart
+                                    </button>
+                                </form>
+
                             </div>
                         </div>
 
@@ -190,9 +190,6 @@ if (!isLoggedIn()) {
         </div>
     </div>
 </div>
-<!-- Vegetables End -->
-
-<!-- Fact Start - FULL WIDTH -->
 <div class="container-fluid py-5 px-0">
     <div class="container">
         <div class="bg-light p-5 rounded">
@@ -229,9 +226,6 @@ if (!isLoggedIn()) {
         </div>
     </div>
 </div>
-<!-- Fact End -->
-
-<!-- Testimonial Start - FULL WIDTH -->
 <div class="container-fluid testimonial py-5 px-0">
     <div class="container py-5">
         <div class="testimonial-header text-center">
@@ -239,9 +233,8 @@ if (!isLoggedIn()) {
             <h1 class="display-5 mb-5 text-dark">Ulasan dari Klien Kami!</h1>
         </div>
         <div class="owl-carousel testimonial-carousel">
-            <!-- Testimonial items (sama seperti asli) -->
-             <!-- testimonial item 1 -->
-            <div class="testimonial-item img-border-radius bg-light rounded p-4 mx-3">
+            
+             <div class="testimonial-item img-border-radius bg-light rounded p-4 mx-3">
                 <div class="position-relative">
                     <i class="fa fa-quote-right fa-2x text-secondary position-absolute" style="bottom: 30px; right: 0;"></i>
                     <div class="mb-4 pb-4 border-bottom border-secondary">
@@ -265,9 +258,8 @@ if (!isLoggedIn()) {
                     </div>
                 </div>
             </div>
-              <!-- Tambahkan item testimonial lain kalau ada -->
-               <!-- testimonial item 2 -->
-                <div class="testimonial-item img-border-radius bg-light rounded p-4 mx-3">
+            
+             <div class="testimonial-item img-border-radius bg-light rounded p-4 mx-3">
                 <div class="position-relative">
                     <i class="fa fa-quote-right fa-2x text-secondary position-absolute" style="bottom: 30px; right: 0;"></i>
                     <div class="mb-4 pb-4 border-bottom border-secondary">
@@ -291,9 +283,8 @@ if (!isLoggedIn()) {
                     </div>
                 </div>
             </div>
-            <!-- Tambahkan item testimonial lain kalau ada -->
-             <!-- testimonial item 3 -->
-              <div class="testimonial-item img-border-radius bg-light rounded p-4 mx-3">
+
+             <div class="testimonial-item img-border-radius bg-light rounded p-4 mx-3">
                 <div class="position-relative">
                     <i class="fa fa-quote-right fa-2x text-secondary position-absolute" style="bottom: 30px; right: 0;"></i>
                     <div class="mb-4 pb-4 border-bottom border-secondary">
@@ -317,9 +308,8 @@ if (!isLoggedIn()) {
                     </div>
                 </div>
             </div>
-            <!-- Tambahkan item testimonial lain kalau ada -->
-              <!-- testimonial item 4 -->
-              <div class="testimonial-item img-border-radius bg-light rounded p-4 mx-3">
+
+             <div class="testimonial-item img-border-radius bg-light rounded p-4 mx-3">
                 <div class="position-relative">
                     <i class="fa fa-quote-right fa-2x text-secondary position-absolute" style="bottom: 30px; right: 0;"></i>
                     <div class="mb-4 pb-4 border-bottom border-secondary">
@@ -343,9 +333,8 @@ if (!isLoggedIn()) {
                     </div>
                 </div>
             </div>
-            <!-- Tambahkan item testimonial lain kalau ada -->
-              <!-- testimonial item 5  -->
-              <div class="testimonial-item img-border-radius bg-light rounded p-4 mx-3">
+
+             <div class="testimonial-item img-border-radius bg-light rounded p-4 mx-3">
                 <div class="position-relative">
                     <i class="fa fa-quote-right fa-2x text-secondary position-absolute" style="bottom: 30px; right: 0;"></i>
                     <div class="mb-4 pb-4 border-bottom border-secondary">
@@ -369,11 +358,8 @@ if (!isLoggedIn()) {
                     </div>
                 </div>
             </div>
-            <!-- Tambahkan item testimonial lain kalau ada -->
+            
         </div>
     </div>
 </div>
-<!-- Testimonial End -->
-
-<!-- Footer - sudah full-width dari template -->
 <?php include 'includes/footer.php'; ?>
