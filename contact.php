@@ -47,11 +47,32 @@ $current_page = 'contact'; // Untuk active menu di navbar
                         <div class="bg-light d-flex flex-column justify-content-center p-4 text-center rounded">
                             <i class="fa fa-envelope fa-3x text-primary mb-4"></i>
                             <h5>Email</h5>
-                            <p class="mb-0">info@fruitables.com</p>
+                            <p class="mb-0">DariKebun@.com</p>
                         </div>
                     </div>
                 </div>
             </div>
+             <!-- WHY CONTACT US START -->
+                <div class="mb-4 text-center">
+                    <h1 class="text-primary mb-4">Why Contact Us?</h1>
+
+                    <div class="row justify-content-center">
+                        <div class="col-12 col-md-4 mb-2">
+                            <i class="fa fa-check-circle text-primary me-2"></i>
+                            Respon cepat (≤ 1×24 jam)
+                        </div>
+                        <div class="col-12 col-md-4 mb-2">
+                            <i class="fa fa-check-circle text-primary me-2"></i>
+                            Konsultasi gratis
+                        </div>
+                        <div class="col-12 col-md-4 mb-2">
+                            <i class="fa fa-check-circle text-primary me-2"></i>
+                            Data Anda aman & terjaga
+                        </div>
+                    </div>
+                </div>
+                <!-- WHY CONTACT US END -->
+
             <div class="col-md-6 wow fadeIn" data-wow-delay="0.1s">
                 <!-- Google Maps Embed -->
                 <iframe class="rounded w-100" 
@@ -63,6 +84,12 @@ $current_page = 'contact'; // Untuk active menu di navbar
             </div>
             <div class="col-md-6">
                 <div class="wow fadeInUp" data-wow-delay="0.2s">
+        <p class="mb-4">
+            Silakan isi form di bawah ini untuk menghubungi kami. Kami akan merespons secepat mungkin!
+        </p>
+
+        <form action="send_message.php" method="post">
+
                     <p class="mb-4">Silakan isi form di bawah ini untuk menghubungi kami. Kami akan merespons secepat mungkin!</p>
                     <form action="send_message.php" method="post">
                         <div class="row g-3">

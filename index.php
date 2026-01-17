@@ -235,8 +235,8 @@ if (!isLoggedIn()) {
 <div class="container-fluid testimonial py-5 px-0">
     <div class="container py-5">
         <div class="testimonial-header text-center">
-            <h4 class="text-primary">Our Testimonial</h4>
-            <h1 class="display-5 mb-5 text-dark">Our Client Saying!</h1>
+            <h4 class="text-primary">Ulasan Pelanggan</h4>
+            <h1 class="display-5 mb-5 text-dark">Ulasan dari Klien Kami!</h1>
         </div>
         <div class="owl-carousel testimonial-carousel">
             <!-- Testimonial items (sama seperti asli) -->
@@ -245,11 +245,11 @@ if (!isLoggedIn()) {
                 <div class="position-relative">
                     <i class="fa fa-quote-right fa-2x text-secondary position-absolute" style="bottom: 30px; right: 0;"></i>
                     <div class="mb-4 pb-4 border-bottom border-secondary">
-                        <p class="mb-0">Lorem Ipsum is simply dummy text of the printing Ipsum has been the industry's standard dummy text ever since the 1500s,</p>
+                        <p class="mb-0">“Buahnya segar semua, tidak ada yang busuk. Pengiriman cepat dan packing rapi. Anak-anak di rumah suka banget. Pasti order lagi!”</p>
                     </div>
                     <div class="d-flex align-items-center flex-nowrap">
                         <div class="bg-secondary rounded">
-                            <img src="img/Testimonial/Client2.jpg" class="img-fluid rounded" style="width: 100px; height: 120px;" alt="">
+                            <img src="img/Testimonial/Client1.jpg" class="img-fluid rounded" style="width: 120px; height: 120px;" alt="">
                         </div>
                         <div class="ms-4 d-block">
                             <h4 class="text-dark">Rina Oktaviani</h4>
@@ -266,6 +266,7 @@ if (!isLoggedIn()) {
                 </div>
             </div>
               <!-- Tambahkan item testimonial lain kalau ada -->
+               <!-- testimonial item 2 -->
                 <div class="testimonial-item img-border-radius bg-light rounded p-4 mx-3">
                 <div class="position-relative">
                     <i class="fa fa-quote-right fa-2x text-secondary position-absolute" style="bottom: 30px; right: 0;"></i>
@@ -274,7 +275,7 @@ if (!isLoggedIn()) {
                     </div>
                     <div class="d-flex align-items-center flex-nowrap">
                         <div class="bg-secondary rounded">
-                            <img src="img/Testimonial/Client3.jpg" class="img-fluid rounded" style="width: 100px; height: 120px;" alt="">
+                            <img src="img/Testimonial/Client2.jpg" class="img-fluid rounded" style="width: 120px; height: 120px;" alt="">
                         </div>
                         <div class="ms-4 d-block">
                             <h4 class="text-dark">Dewi Lestari</h4>
@@ -284,13 +285,40 @@ if (!isLoggedIn()) {
                                 <i class="fas fa-star text-primary"></i>
                                 <i class="fas fa-star text-primary"></i>
                                 <i class="fas fa-star text-primary"></i>
-                                <i class="fas fa-star text-primary"></i>
+                                <i class="fas fa-star"></i>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- Tambahkan item testimonial lain kalau ada -->
+             <!-- testimonial item 3 -->
+              <div class="testimonial-item img-border-radius bg-light rounded p-4 mx-3">
+                <div class="position-relative">
+                    <i class="fa fa-quote-right fa-2x text-secondary position-absolute" style="bottom: 30px; right: 0;"></i>
+                    <div class="mb-4 pb-4 border-bottom border-secondary">
+                        <p class="mb-0">Sangat puas dengan hasil kerjanya. Detail diperhatikan dengan baik dan hasil akhir sesuai ekspektasi. Cocok untuk kerja sama jangka panjang.</p>
+                    </div>
+                    <div class="d-flex align-items-center flex-nowrap">
+                        <div class="bg-secondary rounded">
+                            <img src="img/Testimonial/Client3.jpg" class="img-fluid rounded" style="width: 120px; height: 120px;" alt="">
+                        </div>
+                        <div class="ms-4 d-block">
+                            <h4 class="text-dark">Nathania</h4>
+                            <p class="m-0 pb-3">Ibu Rumah Tangga</p>
+                            <div class="d-flex pe-5">
+                                <i class="fas fa-star text-primary"></i>
+                                <i class="fas fa-star text-primary"></i>
+                                <i class="fas fa-star text-primary"></i>
+                                <i class="fas fa-star text-primary"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Tambahkan item testimonial lain kalau ada -->
+              <!-- testimonial item 4 -->
               <div class="testimonial-item img-border-radius bg-light rounded p-4 mx-3">
                 <div class="position-relative">
                     <i class="fa fa-quote-right fa-2x text-secondary position-absolute" style="bottom: 30px; right: 0;"></i>
@@ -299,10 +327,36 @@ if (!isLoggedIn()) {
                     </div>
                     <div class="d-flex align-items-center flex-nowrap">
                         <div class="bg-secondary rounded">
-                            <img src="img/Testimonial/Client4.jpg" class="img-fluid rounded" style="width: 100px; height: 120px;" alt="">
+                            <img src="img/Testimonial/Client4.jpg" class="img-fluid rounded" style="width: 120px; height: 120px;" alt="">
                         </div>
                         <div class="ms-4 d-block">
                             <h4 class="text-dark">Bagus Pratama</h4>
+                            <p class="m-0 pb-3">Mahasiswa</p>
+                            <div class="d-flex pe-5">
+                                <i class="fas fa-star text-primary"></i>
+                                <i class="fas fa-star text-primary"></i>
+                                <i class="fas fa-star text-primary"></i>
+                                <i class="fas fa-star text-primary"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Tambahkan item testimonial lain kalau ada -->
+              <!-- testimonial item 5  -->
+              <div class="testimonial-item img-border-radius bg-light rounded p-4 mx-3">
+                <div class="position-relative">
+                    <i class="fa fa-quote-right fa-2x text-secondary position-absolute" style="bottom: 30px; right: 0;"></i>
+                    <div class="mb-4 pb-4 border-bottom border-secondary">
+                        <p class="mb-0">“Pelayanan yang diberikan sangat memuaskan. Website yang dibuat rapi, mudah digunakan, dan sesuai dengan kebutuhan saya. Prosesnya juga cepat dan komunikatif."</p>
+                    </div>
+                    <div class="d-flex align-items-center flex-nowrap">
+                        <div class="bg-secondary rounded">
+                            <img src="img/Testimonial/Client5.jpg" class="img-fluid rounded" style="width: 120px; height: 120px;" alt="">
+                        </div>
+                        <div class="ms-4 d-block">
+                            <h4 class="text-dark">Andi Pratama</h4>
                             <p class="m-0 pb-3">Mahasiswa</p>
                             <div class="d-flex pe-5">
                                 <i class="fas fa-star text-primary"></i>
