@@ -1,42 +1,47 @@
 <?php
-require_once 'includes/config.php';
+// process_order.php - VERSI FINAL (SIMPAN ORDER + HAPUS KERANJANG)
+session_start();
 require_once 'includes/functions.php';
 
-// Cek Login
-if (!isLoggedIn()) {
+// 1. Cek Login
+if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit;
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    
-    // Ambil Data Input
-    $name    = mysqli_real_escape_string($connect, $_POST['name']);
-    $phone   = mysqli_real_escape_string($connect, $_POST['phone']);
-    $address = mysqli_real_escape_string($connect, $_POST['address']);
-    
+// 2. Cek apakah ada data POST dari form checkout
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $user_id = $_SESSION['user_id'];
+    $name    = $_POST['name'];
+    $phone   = $_POST['phone'];
+    $address = $_POST['address'];
+    $total   = $_POST['total_amount']; // Pastikan di form checkout ada input hidden ini
     
-    // Hitung Total (Panggil Fungsi)
-    $grand_total = getGrandTotal();
-
     // Validasi keranjang tidak kosong
-    if (getCartCount() == 0) {
-        header("Location: index.php?error=empty_cart");
+    $cart_items = getCartItems();
+    if (empty($cart_items)) {
+        echo "<script>alert('Keranjang kosong!'); window.location.href='index.php';</script>";
         exit;
     }
 
-    // Panggil Fungsi Create Order
-    $order_id = createOrder($user_id, $name, $phone, $address, $grand_total);
+    // A. BUAT ORDER UTAMA
+    $order_id = createOrder($user_id, $name, $phone, $address, $total);
 
     if ($order_id) {
-        // Sukses -> Redirect ke Orders
+        // B. PINDAHKAN ITEM DARI KERANJANG KE ORDER_ITEMS
+        // (Ini yang bikin tabel di halaman order ada isinya)
+        foreach ($cart_items as $item) {
+            createOrderItem($order_id, $item['product_id'], $item['quantity'], $item['price']);
+        }
+
+        // C. HAPUS BARANG DARI KERANJANG (Sesuai request kamu)
+        clearCart($user_id);
+
+        // D. SUKSES! KE HALAMAN ORDER
         header("Location: orders.php?status=success");
         exit;
     } else {
-        // Gagal
-        header("Location: checkout.php?error=failed");
-        exit;
+        echo "Gagal membuat pesanan.";
     }
 } else {
     header("Location: checkout.php");
