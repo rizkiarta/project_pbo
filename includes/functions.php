@@ -1,5 +1,5 @@
 <?php
-// includes/functions.php - VERSI KOMPLIT (LOGIN + CART + ORDER)
+// includes/functions.php - VERSI FINAL (LOGIN + CART + CHECKOUT)
 require_once 'config.php';
 
 // Fix Koneksi ($conn vs $connect)
@@ -8,7 +8,7 @@ if (isset($connect)) {
 }
 
 // ==========================================
-// 1. FUNGSI USER (LOGIN & REGISTER) - INI YANG TADI HILANG
+// 1. FUNGSI USER (LOGIN & REGISTER)
 // ==========================================
 
 function isLoggedIn() {
@@ -24,7 +24,6 @@ function registerUser($data) {
     $address  = mysqli_real_escape_string($conn, $data['address']);
     $role     = 'customer';
 
-    // Cek email kembar
     $check = mysqli_query($conn, "SELECT id FROM users WHERE email = '$email'");
     if (mysqli_num_rows($check) > 0) return false; 
 
@@ -43,7 +42,6 @@ function loginUser($email, $password) {
     if ($result && mysqli_num_rows($result) > 0) {
         $user = mysqli_fetch_assoc($result);
         if (password_verify($password, $user['password'])) {
-            // Set Session
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['user_name'] = $user['name'];
             $_SESSION['user_email'] = $user['email'];
@@ -61,27 +59,16 @@ function loginUser($email, $password) {
 function getProducts($limit = null, $category_slug = null) {
     global $conn;
     $query = "SELECT * FROM products";
-    
-    // Filter kategori (untuk tab fruits/vegetables di index)
     if ($category_slug != null) {
-        // Kita asumsikan category_id 1=fruits, 2=vegetables (sesuaikan dgn DB kamu)
-        if($category_slug == 'fruits') {
-             $query .= " WHERE category_id = 1"; 
-        } elseif ($category_slug == 'vegetables') {
-             $query .= " WHERE category_id = 2";
-        }
+        if($category_slug == 'fruits') { $query .= " WHERE category_id = 1"; } 
+        elseif ($category_slug == 'vegetables') { $query .= " WHERE category_id = 2"; }
     }
-    
     $query .= " ORDER BY id DESC";
-
-    if ($limit != null) {
-        $query .= " LIMIT $limit";
-    }
+    if ($limit != null) { $query .= " LIMIT $limit"; }
 
     $result = mysqli_query($conn, $query);
     $products = [];
     while ($row = mysqli_fetch_assoc($result)) {
-        // Fix warning category_name jika kosong
         $row['category_name'] = isset($row['category_name']) ? $row['category_name'] : 'Sayur Segar';
         $products[] = $row;
     }
@@ -97,9 +84,45 @@ function getProductById($id) {
 }
 
 // ==========================================
-// 3. FUNGSI ORDER (RIWAYAT)
+// 3. FUNGSI CHECKOUT & ORDER (INI YANG TADI HILANG!)
 // ==========================================
 
+// Fungsi Membuat Order Baru
+function createOrder($user_id, $data) {
+    global $conn;
+    $name    = mysqli_real_escape_string($conn, $data['name']);
+    $phone   = mysqli_real_escape_string($conn, $data['phone']);
+    $address = mysqli_real_escape_string($conn, $data['address']);
+    $note    = mysqli_real_escape_string($conn, $data['note']);
+    $total   = $data['total_amount'];
+    $status  = 'pending';
+    $date    = date('Y-m-d H:i:s');
+
+    $query = "INSERT INTO orders (user_id, customer_name, phone, address, note, total_amount, status, created_at)
+              VALUES ('$user_id', '$name', '$phone', '$address', '$note', '$total', '$status', '$date')";
+    
+    if (mysqli_query($conn, $query)) {
+        return mysqli_insert_id($conn); // Balikkan ID order yang baru dibuat
+    }
+    return false;
+}
+
+// Fungsi Memasukkan Barang ke Order
+function createOrderItem($order_id, $product_id, $quantity, $price) {
+    global $conn;
+    $subtotal = $quantity * $price;
+    $query = "INSERT INTO order_items (order_id, product_id, quantity, price, subtotal)
+              VALUES ('$order_id', '$product_id', '$quantity', '$price', '$subtotal')";
+    return mysqli_query($conn, $query);
+}
+
+// Fungsi Membersihkan Keranjang setelah Checkout
+function clearCart($user_id) {
+    global $conn;
+    return mysqli_query($conn, "DELETE FROM cart WHERE user_id = '$user_id'");
+}
+
+// Fungsi Riwayat Order
 function getUserOrders($user_id) {
     global $conn;
     $query = "SELECT * FROM orders WHERE user_id = '$user_id' ORDER BY created_at DESC";
