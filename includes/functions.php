@@ -1,5 +1,5 @@
 <?php
-// includes/functions.php - VERSI FINAL + FIX TYPE ERROR
+// includes/functions.php - VERSI FIX COLUMN ERROR
 require_once 'config.php';
 
 if (isset($connect)) {
@@ -82,31 +82,30 @@ function getProductById($id) {
 }
 
 // ==========================================
-// 3. FUNGSI CHECKOUT (YANG TADI ERROR)
+// 3. FUNGSI CHECKOUT (SUDAH DIPERBAIKI)
 // ==========================================
 
-// SAYA UBAH CARA MENERIMA DATANYA (JADI ECERAN)
+// SAYA HAPUS 'note' DARI INSERT DATABASE SUPAYA TIDAK ERROR LAGI
 function createOrder($user_id, $name, $phone, $address, $total_amount, $note = '') {
     global $conn;
     
-    // Amankan data inputan
     $name    = mysqli_real_escape_string($conn, $name);
     $phone   = mysqli_real_escape_string($conn, $phone);
     $address = mysqli_real_escape_string($conn, $address);
-    $note    = mysqli_real_escape_string($conn, $note);
+    // $note kita abaikan saja karena tidak ada kolomnya di DB
     $total   = (float)$total_amount;
     
     $status  = 'pending';
     $date    = date('Y-m-d H:i:s');
 
-    // Masukkan ke database
-    $query = "INSERT INTO orders (user_id, customer_name, phone, address, note, total_amount, status, created_at)
-              VALUES ('$user_id', '$name', '$phone', '$address', '$note', '$total', '$status', '$date')";
+    // Query ini sudah saya bersihkan dari kolom 'note'
+    $query = "INSERT INTO orders (user_id, customer_name, phone, address, total_amount, status, created_at)
+              VALUES ('$user_id', '$name', '$phone', '$address', '$total', '$status', '$date')";
     
     if (mysqli_query($conn, $query)) {
-        return mysqli_insert_id($conn); // Berhasil, kembalikan ID Order
+        return mysqli_insert_id($conn); 
     }
-    return false; // Gagal
+    return false;
 }
 
 function createOrderItem($order_id, $product_id, $quantity, $price) {
