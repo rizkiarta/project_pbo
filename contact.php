@@ -24,7 +24,7 @@ require_once 'includes/navbar.php';
     <div class="container-xxl py-5">
         <div class="container">
             <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                <h6 class="section-title bg-white text-center text-primary px-3">Kontak Kami</h6>
+                <h5 class="section-title bg-white text-center text-primary px-3">Kontak Kami</h5>
                 <h1 class="mb-5">Hubungi Kami Untuk Pertanyaan</h1>
             </div>
             <div class="row g-4">
@@ -76,12 +76,17 @@ require_once 'includes/navbar.php';
 
                 <div class="col-md-6 wow fadeIn" data-wow-delay="0.1s">
                     <iframe
-                        class="rounded w-100"
-                        style="height: 450px;"
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3972.227276497743!2d105.2572!3d-5.3812!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNcKwMjInNTIuMyJTIDEwNcKwMTUnMjUuOSJF!5e0!3m2!1sen!2sid!4v1632987654321!5m2!1sen!2sid"
-                        loading="lazy"
-                        referrerpolicy="no-referrer-when-downgrade">
+                    class="rounded w-100"
+                    style="height: 450px;"
+                    src="https://www.google.com/maps?q=Politeknik+Negeri+Lampung&z=15&output=embed"
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
                     </iframe>
+                    <a
+                        href="https://www.google.com/maps?q=Politeknik+Negeri+Lampung"
+                        target="_blank"
+                        class="btn btn-outline-primary mt-3">Lihat Lokasi di Google Maps
+                     </a>
                 </div>
 
                 <div class="col-md-6">
