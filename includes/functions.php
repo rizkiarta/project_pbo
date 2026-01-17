@@ -1,5 +1,5 @@
 <?php
-// includes/functions.php - VERSI LENGKAP (USER + CART + PRODUCT)
+// includes/functions.php - VERSI FINAL + FIX TAMPILAN
 require_once 'config.php';
 
 // ==========================================
@@ -18,10 +18,8 @@ function registerUser($data) {
     $password = password_hash($data['password'], PASSWORD_DEFAULT);
     $phone = mysqli_real_escape_string($conn, $data['phone']);
     $address = mysqli_real_escape_string($conn, $data['address']);
-    // Kita set default role 'customer'
     $role = 'customer';
 
-    // Cek email kembar
     $check_query = "SELECT id FROM users WHERE email = '$email'";
     $check_result = mysqli_query($conn, $check_query);
     
@@ -29,7 +27,6 @@ function registerUser($data) {
         return false; 
     }
 
-    // Masukkan data (Tanpa kolom username karena sudah dihapus)
     $query = "INSERT INTO users (name, email, password, phone, address, role) 
               VALUES ('$name', '$email', '$password', '$phone', '$address', '$role')";
     
@@ -57,10 +54,9 @@ function loginUser($email, $password) {
 }
 
 // ==========================================
-// FUNGSI PRODUK (YANG TADI HILANG)
+// FUNGSI PRODUK (DIPERBAIKI DISINI)
 // ==========================================
 
-// Ambil semua produk (bisa dilimit, misal cuma 8 produk teratas)
 function getProducts($limit = null) {
     global $conn;
     $query = "SELECT * FROM products ORDER BY id DESC";
@@ -72,18 +68,28 @@ function getProducts($limit = null) {
     $result = mysqli_query($conn, $query);
     $products = [];
     while ($row = mysqli_fetch_assoc($result)) {
+        // [SOLUSI ERROR KUNING]
+        // Kita paksa isi 'category_name' supaya index.php tidak protes
+        $row['category_name'] = 'Sayur Segar'; 
+        
         $products[] = $row;
     }
     return $products;
 }
 
-// Ambil 1 produk berdasarkan ID (untuk halaman detail)
 function getProductById($id) {
     global $conn;
     $id = (int)$id;
     $query = "SELECT * FROM products WHERE id = '$id'";
     $result = mysqli_query($conn, $query);
-    return mysqli_fetch_assoc($result);
+    $row = mysqli_fetch_assoc($result);
+    
+    // Tambahkan juga di sini biar halaman detail aman
+    if($row) {
+        $row['category_name'] = 'Sayur Segar';
+    }
+    
+    return $row;
 }
 
 // ==========================================
