@@ -15,8 +15,8 @@ require_once 'includes/navbar.php';
             <h1 class="display-3 text-white mb-3 animated slideInDown">Hubungi Kami</h1>
             <nav aria-label="breadcrumb animated slideInDown">
                 <ol class="breadcrumb text-uppercase">
-                    <li class="breadcrumb-item"><a href="index.php" class="text-white">Beranda</a></li>
-                    <li class="breadcrumb-item text-white active" aria-current="page">Kontak</li>
+                    <li class="breadcrumb-item"><a href="index.php" class="text-white fw-bold" >Beranda</a></li>
+                    <li class="breadcrumb-item text-white fw-bold active" aria-current="page">Kontak</li>
                 </ol>
             </nav>
         </div>
