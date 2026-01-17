@@ -200,4 +200,25 @@ function getCartCount() {
     $row = mysqli_fetch_assoc($result);
     return $row['total'] ? (int)$row['total'] : 0;
 }
+
+// Tambahkan kode ini di functions.php (paling bawah)
+
+function cancelOrder($order_id, $user_id) {
+    global $conn;
+    
+    // Pastikan order milik user yang login
+    $order_id = (int)$order_id;
+    $user_id  = (int)$_SESSION['user_id'];
+    
+    // Update status di database
+    $query = "UPDATE orders SET status = 'cancelled' 
+              WHERE id = '$order_id' AND user_id = '$user_id'";
+              
+    if (mysqli_query($conn, $query)) {
+        return true;
+    }
+    return false;
+}
+
 ?>
+

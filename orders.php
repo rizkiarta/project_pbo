@@ -9,9 +9,22 @@ if (!isLoggedIn()) {
     exit;
 }
 
-$user_id = $_SESSION['user_id'];
-$orders  = getUserOrders($user_id);
-$current_page = 'orders';
+// Cek Notifikasi (Alert)
+ $msg = '';
+ $msgType = '';
+if (isset($_SESSION['success_msg'])) {
+    $msg = $_SESSION['success_msg'];
+    $msgType = 'success';
+    unset($_SESSION['success_msg']);
+} elseif (isset($_SESSION['error_msg'])) {
+    $msg = $_SESSION['error_msg'];
+    $msgType = 'danger';
+    unset($_SESSION['error_msg']);
+}
+
+ $user_id = $_SESSION['user_id'];
+ $orders  = getUserOrders($user_id);
+ $current_page = 'orders';
 ?>
 
 <?php include 'includes/navbar.php'; ?>
@@ -31,6 +44,14 @@ $current_page = 'orders';
 <div class="container-fluid py-5">
     <div class="container py-5">
         
+        <!-- Notifikasi Alert -->
+        <?php if($msg): ?>
+            <div class="alert alert-<?php echo $msgType; ?> alert-dismissible fade show text-center" role="alert">
+                <?php echo $msg; ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php endif; ?>
+
         <div class="row justify-content-center">
             <div class="col-lg-10">
                 
@@ -46,9 +67,14 @@ $current_page = 'orders';
 
                     <div class="accordion" id="accordionOrders">
                         <?php 
-                        $counter = 1; 
+                        // HITUNG TOTAL PESANAN UNTUK NOMOR URUT TERBALIK
+                        $total_orders_count = count($orders);
+                        
                         foreach ($orders as $order): 
                             $items = getOrderItems($order['id']);
+                            
+                            // NOMOR URUT (Mundur dari total ke 1)
+                            $counter = $total_orders_count;
                             
                             // LOGIKA STATUS & WARNA
                             $statusLabel = ucfirst($order['status']);
@@ -59,7 +85,6 @@ $current_page = 'orders';
                                 $statusColor = 'bg-warning text-dark'; 
                             }
                             elseif($order['status'] == 'shipped') { 
-                                // INI REQUEST KAMU: Kalo sudah bayar -> Siap Diantar
                                 $statusLabel = 'SIAP DIANTAR 🛵'; 
                                 $statusColor = 'bg-primary text-white'; 
                             }
@@ -68,6 +93,7 @@ $current_page = 'orders';
                                 $statusColor = 'bg-success text-white'; 
                             }
                             elseif($order['status'] == 'cancelled') { 
+                                $statusLabel = 'Dibatalkan'; 
                                 $statusColor = 'bg-danger text-white'; 
                             }
                         ?>
@@ -81,7 +107,8 @@ $current_page = 'orders';
                                                 <i class="fa fa-receipt text-primary"></i>
                                             </div>
                                             <div>
-                                                <h6 class="mb-0 fw-bold">Order #<?php echo $order['id']; ?></h6>
+                                                <!-- MENAMPILKAN NOMOR URUT TERBALIK -->
+                                                <h6 class="mb-0 fw-bold">Order #<?php echo $counter; ?></h6>
                                                 <small class="text-muted"><?php echo date('d M Y, H:i', strtotime($order['created_at'])); ?></small>
                                             </div>
                                         </div>
@@ -141,18 +168,42 @@ $current_page = 'orders';
                                         </table>
                                     </div>
 
-                                    <?php if($order['status'] == 'pending'): ?>
+                                    <!-- BAGIAN TOMBOL AKSI (LOGIKA UPDATE) -->
                                     <div class="text-end mt-3">
-                                        <a href="pay_order.php?id=<?php echo $order['id']; ?>" class="btn btn-success rounded-pill px-4" onclick="return confirm('Bayar pesanan ini sekarang?')">
-                                            <i class="fa fa-wallet me-2"></i> Bayar Sekarang
-                                        </a>
+                                        
+                                        <!-- KONDISI 1: Jika Pending -->
+                                        <?php if($order['status'] == 'pending'): ?>
+                                            <div class="d-inline-flex gap-2">
+                                                <a href="pay_order.php?id=<?php echo $order['id']; ?>" class="btn btn-success rounded-pill px-4" onclick="return confirm('Bayar pesanan ini sekarang?')">
+                                                    <i class="fa fa-wallet me-2"></i> Bayar Sekarang
+                                                </a>
+                                                
+                                                <a href="cancel_order.php?id=<?php echo $order['id']; ?>" class="btn btn-danger rounded-pill px-4" onclick="return confirm('Yakin ingin membatalkan pesanan ini?')">
+                                                    <i class="fa fa-times me-2"></i> Batalkan
+                                                </a>
+                                            </div>
+
+                                        <!-- KONDISI 2: Jika Shipped (Siap Diantar) -->
+                                        <?php elseif($order['status'] == 'shipped'): ?>
+                                            <a href="complete_order.php?id=<?php echo $order['id']; ?>" class="btn btn-primary rounded-pill px-4" onclick="return confirm('Konfirmasi pesanan telah diterima?')">
+                                                <i class="fa fa-check-circle me-2"></i> Pesanan Diterima
+                                            </a>
+
+                                        <!-- KONDISI 3: Jika Selesai atau Dibatalkan (Tidak ada tombol) -->
+                                        <?php else: ?>
+                                            <!-- Tidak ada tombol aksi -->
+                                        <?php endif; ?>
+
                                     </div>
-                                    <?php endif; ?>
 
                                 </div>
                             </div>
                         </div>
-                        <?php $counter++; endforeach; ?>
+                        <?php 
+                            // KURANGI COUNTER AGAR URUTANNYA MUNDUR
+                            $total_orders_count--; 
+                        endforeach; 
+                        ?>
                     </div>
 
                 <?php endif; ?>
