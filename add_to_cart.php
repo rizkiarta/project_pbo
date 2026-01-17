@@ -1,14 +1,11 @@
 <?php
-// add_to_cart.php - FINAL FIX (ANTI POP-UP ERROR)
-ob_start(); // Tahan output
-
+// add_to_cart.php - VERSI MANUAL (TANPA POP-UP JS)
+session_start();
 require_once 'includes/functions.php';
-
-ob_clean(); // Hapus warning/error sampah sebelumnya
 
 // Cek Login
 if (!isset($_SESSION['user_id'])) {
-    echo "login_required";
+    echo "<script>alert('Login dulu yuk!'); window.location.href='login.php';</script>";
     exit;
 }
 
@@ -18,13 +15,12 @@ $quantity   = isset($_POST['quantity']) ? $_POST['quantity'] : 1;
 
 if ($product_id) {
     if (addToCart($product_id, $quantity)) {
-        ob_clean(); // Bersihkan lagi sebelum kirim "success"
-        echo "success"; 
+        // SUKSES: Balik ke halaman sebelumnya (Home)
+        echo "<script>alert('Berhasil masuk keranjang! 🛒'); window.history.back();</script>";
     } else {
-        ob_clean();
-        echo "failed";
+        echo "<script>alert('Gagal masuk keranjang.'); window.history.back();</script>";
     }
 } else {
-    echo "invalid";
+    header("Location: index.php");
 }
 ?>
