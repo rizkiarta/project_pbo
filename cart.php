@@ -2,7 +2,16 @@
 require_once 'includes/functions.php';
 require_once 'includes/head.php';
 
-// Ambil data
+// --- [FIX 1] MUNCLKAN NAVBAR ---
+// Kalau error, coba ganti 'navbar.php' jadi 'header.php'
+if (file_exists('includes/navbar.php')) {
+    require_once 'includes/navbar.php';
+} elseif (file_exists('includes/header.php')) {
+    require_once 'includes/header.php';
+}
+// -------------------------------
+
+// Ambil data keranjang
 $items = getCartItems();
 $subtotal = getCartTotal();
 $shipping = getShippingFee();
@@ -24,7 +33,7 @@ $grand_total = getGrandTotal();
                 
                 <?php if (empty($items)): ?>
                     <div class="text-center py-5">
-                        <h3>Keranjang Kosong</h3>
+                        <h3>Keranjang Kosong 🛒</h3>
                         <a href="index.php" class="btn btn-primary rounded-pill py-3 px-5 mt-3">Belanja Dulu</a>
                     </div>
                 <?php else: ?>
@@ -45,7 +54,10 @@ $grand_total = getGrandTotal();
                         <tr>
                             <td>
                                 <div class="d-flex align-items-center">
-                                    <img src="img/<?php echo $item['image']; ?>" class="img-fluid rounded-circle" style="width: 80px; height: 80px;" alt="">
+                                    <img src="img/<?php echo $item['image']; ?>" 
+                                         class="img-fluid rounded-circle" 
+                                         style="width: 80px; height: 80px;" 
+                                         alt="<?php echo $item['name']; ?>">
                                 </div>
                             </td>
                             
