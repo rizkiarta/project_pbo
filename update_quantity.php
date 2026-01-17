@@ -1,57 +1,34 @@
 <?php
-// update_quantity.php
-// 1. Pastikan session dimulai
-session_start(); 
+// update_quantity.php (MODE DEBUG)
+session_start();
+require_once 'includes/config.php';
 
-// (Opsional) Jika config.php kamu juga start session, baris ini aman kok
-require_once 'includes/config.php'; 
+$id_dari_tombol = isset($_GET['id']) ? $_GET['id'] : 'TIDAK ADA ID';
+$action = isset($_GET['action']) ? $_GET['action'] : 'TIDAK ADA ACTION';
 
-// 2. Ambil data
-if (isset($_GET['id']) && isset($_GET['action'])) {
-    $product_id = $_GET['id'];
-    $action     = $_GET['action'];
+echo "<h1>Mode Detektif 🕵️‍♂️</h1>";
+echo "<h3>1. Data yang diterima dari tombol:</h3>";
+echo "ID Produk: <strong>" . $id_dari_tombol . "</strong><br>";
+echo "Action: <strong>" . $action . "</strong><br>";
 
-    // Debugging (Kalau masih gagal, nanti kita aktifkan ini)
-    // echo "ID: " . $product_id . " - Action: " . $action; exit;
+echo "<hr>";
+echo "<h3>2. Isi Keranjang di Session Server:</h3>";
+echo "<pre>";
+print_r($_SESSION['cart']);
+echo "</pre>";
 
-    // 3. Cek apakah keranjang ada
-    if (isset($_SESSION['cart'])) {
-        
-        // Cek apakah produk ini ada di keranjang
-        // Kita pakai loop untuk mencari kalau key-nya bukan ID langsung, 
-        // ATAU akses langsung kalau strukturnya [id => jumlah]
-        
-        // Skenario A: Jika struktur session kamu sederhana: $_SESSION['cart'][ID] = JUMLAH
-        if (isset($_SESSION['cart'][$product_id])) {
-            if ($action == 'increase') {
-                $_SESSION['cart'][$product_id]++;
-            } elseif ($action == 'decrease') {
-                $_SESSION['cart'][$product_id]--;
-                if ($_SESSION['cart'][$product_id] < 1) {
-                    $_SESSION['cart'][$product_id] = 1;
-                }
-            }
-        } 
-        // Skenario B: Jaga-jaga jika ID terdeteksi sebagai string/integer beda tipe
-        // (Kadang '1' beda dengan 1 di beberapa settingan PHP lama, meski jarang)
-        elseif (isset($_SESSION['cart'][(int)$product_id])) {
-             $int_id = (int)$product_id;
-             if ($action == 'increase') {
-                $_SESSION['cart'][$int_id]++;
-            } elseif ($action == 'decrease') {
-                $_SESSION['cart'][$int_id]--;
-                if ($_SESSION['cart'][$int_id] < 1) {
-                    $_SESSION['cart'][$int_id] = 1;
-                }
-            }
-        }
-    }
+echo "<hr>";
+echo "<h3>3. Analisa Pencocokan:</h3>";
+
+if (isset($_SESSION['cart'][$id_dari_tombol])) {
+    echo "✅ <strong>COCOK!</strong> ID " . $id_dari_tombol . " ditemukan di session.<br>";
+    echo "Jumlah sekarang: " . $_SESSION['cart'][$id_dari_tombol] . "<br>";
+    echo "Seharusnya kalau ditambah jadi: " . ($_SESSION['cart'][$id_dari_tombol] + 1);
+} else {
+    echo "❌ <strong>GAGAL!</strong> ID " . $id_dari_tombol . " TIDAK ditemukan di kunci array session di atas.<br>";
+    echo "Coba perhatikan output 'Isi Keranjang' di poin 2. Apakah ID-nya berbeda?";
 }
 
-// 4. PENTING: Paksa simpan session sebelum pindah
-session_write_close();
-
-// 5. Kembalikan ke halaman cart
-header("Location: cart.php");
+echo "<br><br><a href='cart.php'>Kembali ke Cart</a>";
 exit();
 ?>
