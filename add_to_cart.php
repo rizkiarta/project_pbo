@@ -1,33 +1,48 @@
 <?php
-// add_to_cart_ajax.php 
-require_once 'includes/config.php';
+// add_to_cart.php - KURIR BARU
 require_once 'includes/functions.php';
 
-header('Content-Type: application/json');
-
-if (!isset($_POST['product_id'])) {
-    echo json_encode(['success' => false, 'message' => 'Produk tidak valid']);
+// 1. Cek Login
+if (!isLoggedIn()) {
+    echo "<script>
+        alert('Eits, Login dulu baru bisa belanja!');
+        window.location.href = 'login.php';
+    </script>";
     exit;
 }
 
-$product_id = (int)$_POST['product_id'];
-$quantity = isset($_POST['quantity']) ? (int)$_POST['quantity'] : 1;
+// 2. Tangkap Data (Bisa dari POST atau GET)
+$product_id = null;
+$quantity = 1; // Default beli 1
 
-if ($quantity < 1) $quantity = 1;
-
-$result = addToCart($product_id, $quantity);
-
-if ($result) {
-    echo json_encode([
-        'success' => true,
-        'message' => 'Produk berhasil ditambahkan ke keranjang!',
-        'cart_count' => getCartCount()
-    ]);
-} else {
-    echo json_encode([
-        'success' => false,
-        'message' => 'Gagal menambahkan produk. Mungkin produk tidak ditemukan.'
-    ]);
+if (isset($_POST['product_id'])) {
+    $product_id = $_POST['product_id'];
+    if (isset($_POST['quantity'])) {
+        $quantity = (int)$_POST['quantity'];
+    }
+} elseif (isset($_GET['id'])) {
+    $product_id = $_GET['id'];
 }
-exit;
+
+// 3. Proses Masukkan
+if ($product_id) {
+    if (addToCart($product_id, $quantity)) {
+        // SUKSES
+        echo "<script>
+            alert('Berhasil masuk keranjang! 🛒');
+            // Kembali ke halaman sebelumnya
+            window.history.back(); 
+        </script>";
+    } else {
+        // GAGAL
+        echo "<script>
+            alert('Gagal masuk keranjang. Coba lagi!');
+            window.location.href = 'index.php';
+        </script>";
+    }
+} else {
+    // Kalau id produk tidak ada
+    header("Location: index.php");
+    exit;
+}
 ?>
