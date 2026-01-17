@@ -1,7 +1,4 @@
 <?php
-// update_quantity.php — versi anti-error 100%
-
-// WAJIB di baris paling atas!
 session_start();
 
 // Include config dan functions
@@ -48,13 +45,18 @@ foreach ($items as $item) {
     }
 }
 
-$grand_total = getCartTotal() + 20000; // subtotal + shipping
+// Hitung ulang dengan jelas
+ $cart_total_new = getCartTotal(); 
+ $shipping = 20000; // Pastikan sesuai dengan getShippingFee()
+ $grand_total_new = $cart_total_new + $shipping;
 
 echo json_encode([
     'success'         => true,
     'quantity'        => $new_quantity,
     'subtotal'        => $current_item ? 'Rp ' . number_format($current_item['subtotal']) : 'Rp 0',
-    'total'           => 'Rp ' . number_format($grand_total),
+    // Tambahkan key baru untuk sidebar
+    'sidebar_subtotal' => 'Rp ' . number_format($cart_total_new),
+    'grand_total'     => 'Rp ' . number_format($grand_total_new), 
     'remove'          => ($new_quantity == 0),
     'cart_count'      => getCartCount()
 ]);

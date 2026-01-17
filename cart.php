@@ -1,25 +1,25 @@
 <?php
-    require_once 'includes/config.php';
-    require_once 'includes/head.php';
-    require_once 'includes/spinner.php';
-    $current_page = 'shop';
-    require_once 'includes/navbar.php';
+require_once 'includes/config.php';
+require_once 'includes/head.php';
+require_once 'includes/spinner.php';
+$current_page = 'shop';
+require_once 'includes/navbar.php';
 ?>
 
 <body>
 
     <!-- Single Page Header start -->
-<div class="container-fluid page-header py-5 mb-5">
-    <div class="container py-5">
-        <h1 class="display-3 text-white mb-3 animated slideInDown">Cart</h1>
-        <nav aria-label="breadcrumb animated slideInDown">
-            <ol class="breadcrumb text-uppercase">
-                <li class="breadcrumb-item"><a href="index.php" class="text-white">Home</a></li>
-                <li class="breadcrumb-item text-white active" aria-current="page">Cart</li>
-            </ol>
-        </nav>
+    <div class="container-fluid page-header py-5 mb-5">
+        <div class="container py-5">
+            <h1 class="display-3 text-white mb-3 animated slideInDown">Cart</h1>
+            <nav aria-label="breadcrumb animated slideInDown">
+                <ol class="breadcrumb text-uppercase">
+                    <li class="breadcrumb-item"><a href="index.php" class="text-white">Home</a></li>
+                    <li class="breadcrumb-item text-white active" aria-current="page">Cart</li>
+                </ol>
+            </nav>
+        </div>
     </div>
-</div>
     <!-- Single Page Header End -->
 
 
@@ -41,6 +41,8 @@
                         <?php
                         $cart_items = getCartItems(); // Dari functions.php
                         $cart_total = getCartTotal();
+                        $shipping = getShippingFee();
+                        $grand_total = getGrandTotal();
 
                         if (empty($cart_items)): ?>
                             <tr>
@@ -109,14 +111,10 @@
                     <div class="bg-light rounded">
                         <div class="p-4">
                             <h1 class="display-6 mb-4">Cart <span class="fw-normal">Total</span></h1>
-                            <?php
-                            $cart_total = getCartTotal();  // Ini dari functions.php, sudah benar
-                            $shipping = 20000;
-                            $grand_total = $cart_total + $shipping;
-                            ?>
                             <div class="d-flex justify-content-between mb-4">
                                 <h5 class="mb-0 me-4">Subtotal:</h5>
-                                <p class="mb-0 cart-total-display">Rp<?php echo number_format($cart_total); ?></p>
+                                <!-- Hapus class cart-total-display, ganti dengan id khusus -->
+                                <p class="mb-0" id="sidebar-subtotal">Rp <?php echo number_format($cart_total); ?></p>
                             </div>
                             <div class="d-flex justify-content-between">
                                 <h5 class="mb-0 me-4">Shipping</h5>
@@ -127,7 +125,8 @@
                             <hr>
                             <div class="d-flex justify-content-between">
                                 <h5 class="mb-0 me-4">Total:</h5>
-                                <p class="mb-0 fw-bold cart-total-display">Rp<?php echo number_format($grand_total); ?></p>
+                                <!-- Hapus class cart-total-display, ganti dengan id khusus -->
+                                <p class="mb-0 fw-bold" id="sidebar-grand-total">Rp <?php echo number_format($grand_total); ?></p>
                             </div>
                         </div>
                         <div class="py-4 text-center">
@@ -142,6 +141,6 @@
     </div>
     <!-- Cart Page End -->
 
-<?php
-require_once 'includes/footer.php'; 
-?>
+    <?php
+    require_once 'includes/footer.php';
+    ?>

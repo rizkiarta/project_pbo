@@ -249,6 +249,17 @@ function getCartTotal() {
     }
     return $total;
 }
+// Fungsi universal: hitung ongkir (flat rate)
+function getShippingFee() {
+    return 20000; // Ongkir flat rate Rp20.000
+}           
+
+// Fungsi universal: hitung total harga keranjang + ongkir
+function getGrandTotal() {
+    $cart_total = getCartTotal();
+    $shipping = getShippingFee();
+    return $cart_total + $shipping;
+}
 
 // Fungsi universal: hapus item dari keranjang
 function removeFromCart($product_id) {

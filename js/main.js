@@ -13,9 +13,8 @@
 
 
     // Fixed Navbar
-    // Fixed Navbar - versi setelah hapus topbar
     $(window).scroll(function () {
-        if ($(this).scrollTop() > 100) {  // atau 50, sesuaikan kapan shadow muncul
+        if ($(this).scrollTop() > 100) {
             $('.fixed-top').addClass('shadow');
         } else {
             $('.fixed-top').removeClass('shadow');
@@ -52,21 +51,11 @@
         ],
         responsiveClass: true,
         responsive: {
-            0: {
-                items: 1
-            },
-            576: {
-                items: 1
-            },
-            768: {
-                items: 1
-            },
-            992: {
-                items: 2
-            },
-            1200: {
-                items: 2
-            }
+            0: { items: 1 },
+            576: { items: 1 },
+            768: { items: 1 },
+            992: { items: 2 },
+            1200: { items: 2 }
         }
     });
 
@@ -86,21 +75,11 @@
         ],
         responsiveClass: true,
         responsive: {
-            0: {
-                items: 1
-            },
-            576: {
-                items: 1
-            },
-            768: {
-                items: 2
-            },
-            992: {
-                items: 3
-            },
-            1200: {
-                items: 4
-            }
+            0: { items: 1 },
+            576: { items: 1 },
+            768: { items: 2 },
+            992: { items: 3 },
+            1200: { items: 4 }
         }
     });
 
@@ -124,7 +103,7 @@
 
 
 
-    // Product Quantity
+    // Product Quantity (Untuk halaman detail product biasanya)
     $('.quantity button').on('click', function () {
         var button = $(this);
         var oldValue = button.parent().parent().find('input').val();
@@ -143,16 +122,20 @@
 })(jQuery);
 
 
+// Fungsi Update Quantity Cart
 function updateQuantity(productId, change, button) {
     const row = button.closest('tr');
     if (!row) return;
 
     const quantityDisplay = row.querySelector('.quantity-display');
     const subtotalDisplay = row.querySelector('.subtotal-display');
-    const totalDisplay = document.querySelector('.cart-total-display');
+    
+    // Ambil elemen Sidebar berdasarkan ID
+    const sidebarSubtotalDisplay = document.getElementById('sidebar-subtotal');
+    const sidebarGrandTotalDisplay = document.getElementById('sidebar-grand-total');
 
     // Cek apakah elemen ada
-    if (!quantityDisplay || !subtotalDisplay || !totalDisplay) {
+    if (!quantityDisplay || !subtotalDisplay || !sidebarSubtotalDisplay || !sidebarGrandTotalDisplay) {
         console.error('Elemen tidak ditemukan!');
         return;
     }
@@ -169,16 +152,26 @@ function updateQuantity(productId, change, button) {
             if (data.success) {
                 if (data.remove || data.quantity <= 0) {
                     row.remove(); // Hapus baris kalau quantity 0
-                    // Update total kalau baris dihapus
-                    if (document.querySelector('tbody tr')) {
-                        totalDisplay.innerHTML = data.total;
+                    
+                    // Cek apakah masih ada sisa barang di tabel
+                    const remainingRows = document.querySelectorAll('tbody tr').length;
+                    
+                    if (remainingRows > 0) {
+                        // Update total sidebar saja karena baris dihapus
+                        sidebarSubtotalDisplay.innerHTML = data.sidebar_subtotal;
+                        sidebarGrandTotalDisplay.innerHTML = data.grand_total;
                     } else {
-                        location.reload(); // Kalau keranjang kosong, reload
+                        // Kalau keranjang kosong, reload
+                        location.reload(); 
                     }
                 } else {
+                    // Update baris item
                     quantityDisplay.value = data.quantity;
                     subtotalDisplay.innerHTML = data.subtotal;
-                    totalDisplay.innerHTML = data.total;
+                    
+                    // Update Sidebar
+                    sidebarSubtotalDisplay.innerHTML = data.sidebar_subtotal;
+                    sidebarGrandTotalDisplay.innerHTML = data.grand_total;
                 }
 
                 // Update badge keranjang di navbar
@@ -194,13 +187,12 @@ function updateQuantity(productId, change, button) {
         });
 }
 
-// biar kalo nambah ke keranjang ga load dn stay
+// Fitur Add to Cart tanpa reload
 document.querySelectorAll('.add-to-cart-btn').forEach(button => {
     button.addEventListener('click', function() {
         const productId = this.getAttribute('data-product-id');
-        const currentScroll = window.pageYOffset; // Simpan posisi scroll saat ini
+        const currentScroll = window.pageYOffset; 
 
-        // Optional: animasi loading
         this.disabled = true;
         this.innerHTML = '<i class="fa fa-spinner fa-spin me-2"></i> Adding...';
 
@@ -214,24 +206,17 @@ document.querySelectorAll('.add-to-cart-btn').forEach(button => {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                // Update badge keranjang di navbar
                 const badge = document.querySelector('.cart-count');
                 if (badge) {
                     badge.textContent = data.cart_count;
                 }
-
-                // Optional: Toast notification sederhana
-                alert(data.message); // Bisa diganti toast Bootstrap nanti
-
-                // Kembalikan tombol
+                alert(data.message); 
                 this.innerHTML = '<i class="fa fa-shopping-bag me-2 text-primary"></i> Add to Cart';
             } else {
                 alert(data.message || 'Gagal menambahkan ke keranjang');
                 this.innerHTML = '<i class="fa fa-shopping-bag me-2 text-primary"></i> Add to Cart';
             }
             this.disabled = false;
-
-            // Kembalikan scroll ke posisi semula
             window.scrollTo(0, currentScroll);
         })
         .catch(err => {
