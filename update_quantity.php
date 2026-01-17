@@ -1,34 +1,61 @@
 <?php
-// update_quantity.php (MODE DEBUG)
-session_start();
+// update_quantity.php - SUDAH DIPERBAIKI (Versi $connect)
+
+// Kita panggil config.php dulu. 
+// File ini sudah otomatis menjalankan session_start() dan membuat koneksi database ($connect)
 require_once 'includes/config.php';
 
-$id_dari_tombol = isset($_GET['id']) ? $_GET['id'] : 'TIDAK ADA ID';
-$action = isset($_GET['action']) ? $_GET['action'] : 'TIDAK ADA ACTION';
-
-echo "<h1>Mode Detektif 🕵️‍♂️</h1>";
-echo "<h3>1. Data yang diterima dari tombol:</h3>";
-echo "ID Produk: <strong>" . $id_dari_tombol . "</strong><br>";
-echo "Action: <strong>" . $action . "</strong><br>";
-
-echo "<hr>";
-echo "<h3>2. Isi Keranjang di Session Server:</h3>";
-echo "<pre>";
-print_r($_SESSION['cart']);
-echo "</pre>";
-
-echo "<hr>";
-echo "<h3>3. Analisa Pencocokan:</h3>";
-
-if (isset($_SESSION['cart'][$id_dari_tombol])) {
-    echo "✅ <strong>COCOK!</strong> ID " . $id_dari_tombol . " ditemukan di session.<br>";
-    echo "Jumlah sekarang: " . $_SESSION['cart'][$id_dari_tombol] . "<br>";
-    echo "Seharusnya kalau ditambah jadi: " . ($_SESSION['cart'][$id_dari_tombol] + 1);
-} else {
-    echo "❌ <strong>GAGAL!</strong> ID " . $id_dari_tombol . " TIDAK ditemukan di kunci array session di atas.<br>";
-    echo "Coba perhatikan output 'Isi Keranjang' di poin 2. Apakah ID-nya berbeda?";
+// Pastikan user sudah login
+if (!isset($_SESSION['user_id'])) {
+    // Kalau belum login, lempar ke halaman login (opsional)
+    header("Location: login.php");
+    exit;
 }
 
-echo "<br><br><a href='cart.php'>Kembali ke Cart</a>";
-exit();
+// Tangkap data dari URL
+if (isset($_GET['id']) && isset($_GET['action'])) {
+    $product_id = (int)$_GET['id'];
+    $action     = $_GET['action'];
+    $user_id    = (int)$_SESSION['user_id']; // Ambil ID user dari session
+
+    // -----------------------------------------------------------
+    // Menggunakan variabel $connect (sesuai config.php kamu)
+    // -----------------------------------------------------------
+
+    // 1. Ambil jumlah (quantity) saat ini dari Database
+    // Asumsi nama tabel: 'cart' (jika masih error, cek nama tabel di database)
+    $query = "SELECT quantity FROM cart WHERE user_id = '$user_id' AND product_id = '$product_id'";
+    $result = mysqli_query($connect, $query);
+
+    if ($result && mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        $current_qty = (int)$row['quantity'];
+        
+        // 2. Hitung Quantity Baru
+        if ($action == 'increase') {
+            $new_qty = $current_qty + 1;
+        } elseif ($action == 'decrease') {
+            $new_qty = $current_qty - 1;
+        } else {
+            $new_qty = $current_qty;
+        }
+
+        // 3. Update ke Database
+        if ($new_qty > 0) {
+            // Update angka baru
+            $update_query = "UPDATE cart SET quantity = '$new_qty' WHERE user_id = '$user_id' AND product_id = '$product_id'";
+            mysqli_query($connect, $update_query);
+        } else {
+            // LOGIKA PENGHAPUSAN/BATAS MINIMAL
+            // Jika jumlah jadi 0, kita set mentok di 1 saja.
+            // (Kalau mau dihapus otomatis, ganti query ini dengan DELETE)
+            $update_query = "UPDATE cart SET quantity = '1' WHERE user_id = '$user_id' AND product_id = '$product_id'";
+            mysqli_query($connect, $update_query);
+        }
+    }
+}
+
+// 4. Redirect kembali ke halaman cart
+header("Location: cart.php");
+exit;
 ?>
