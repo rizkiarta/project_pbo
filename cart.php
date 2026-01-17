@@ -10,11 +10,11 @@ require_once 'includes/navbar.php';
 
     <div class="container-fluid page-header py-5 mb-5">
         <div class="container py-5">
-            <h1 class="display-3 text-white mb-3 animated slideInDown">Cart</h1>
+            <h1 class="display-3 text-white mb-3 animated slideInDown">Keranjang</h1>
             <nav aria-label="breadcrumb animated slideInDown">
                 <ol class="breadcrumb text-uppercase">
-                    <li class="breadcrumb-item"><a href="index.php" class="text-white">Home</a></li>
-                    <li class="breadcrumb-item text-white active" aria-current="page">Cart</li>
+                    <li class="breadcrumb-item"><a href="index.php" class="text-white">Beranda</a></li>
+                    <li class="breadcrumb-item text-white active" aria-current="page">Keranjang</li>
                 </ol>
             </nav>
         </div>
@@ -25,10 +25,10 @@ require_once 'includes/navbar.php';
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col">Products</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Price</th>
-                            <th scope="col">Quantity</th>
+                            <th scope="col">Gambar</th>
+                            <th scope="col">Nama Produk</th>
+                            <th scope="col">Harga</th>
+                            <th scope="col">Jumlah</th>
                             <th scope="col">Total</th>
                         </tr>
                     </thead>
@@ -108,15 +108,15 @@ require_once 'includes/navbar.php';
                 <div class="col-sm-8 col-md-7 col-lg-6 col-xl-4">
                     <div class="bg-light rounded">
                         <div class="p-4">
-                            <h1 class="display-6 mb-4">Cart <span class="fw-normal">Total</span></h1>
+                            <h1 class="display-6 mb-4">Total <span class="fw-normal">Keranjang</span></h1>
                             <div class="d-flex justify-content-between mb-4">
                                 <h5 class="mb-0 me-4">Subtotal:</h5>
                                 <p class="mb-0">Rp <?php echo number_format($cart_total); ?></p>
                             </div>
                             <div class="d-flex justify-content-between">
-                                <h5 class="mb-0 me-4">Shipping</h5>
+                                <h5 class="mb-0 me-4">Ongkos Kirim</h5>
                                 <div>
-                                    <p class="mb-0">Flat rate: Rp <?php echo number_format($shipping); ?></p>
+                                    <p class="mb-0">Tarif Tetap: Rp <?php echo number_format($shipping); ?></p>
                                 </div>
                             </div>
                             <hr>
@@ -127,7 +127,7 @@ require_once 'includes/navbar.php';
                         </div>
                         <div class="py-4 text-center">
                             <a href="checkout.php" class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase w-100">
-                                Proceed Checkout
+                                Lanjut ke Pembayaran
                             </a>
                         </div>
                     </div>
