@@ -1,11 +1,8 @@
 <?php
 require_once 'includes/functions.php';
 require_once 'includes/head.php';
-
-// Fix Navbar Hilang
-if (file_exists('includes/navbar.php')) {
-    require_once 'includes/navbar.php';
-}
+// Cek navbar/header
+if (file_exists('includes/navbar.php')) require_once 'includes/navbar.php';
 
 $items = getCartItems();
 ?>
@@ -22,14 +19,12 @@ $items = getCartItems();
     <div class="container-fluid py-5">
         <div class="container py-5">
             <div class="table-responsive">
-                
                 <?php if (empty($items)): ?>
                     <div class="text-center py-5">
                         <h3>Keranjang Kosong</h3>
                         <a href="index.php" class="btn btn-primary rounded-pill py-3 px-5 mt-3">Belanja Dulu</a>
                     </div>
                 <?php else: ?>
-                
                 <table class="table">
                     <thead>
                         <tr>
@@ -38,65 +33,49 @@ $items = getCartItems();
                             <th>Harga</th>
                             <th>Jumlah</th>
                             <th>Total</th>
-                            <th>Hapus</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($items as $item): ?>
                         <tr>
                             <td>
-                                <div class="d-flex align-items-center">
-                                    <img src="img/<?php echo $item['image']; ?>" class="img-fluid rounded-circle" style="width: 80px; height: 80px;" alt="gambar">
-                                </div>
+                                <img src="img/<?php echo $item['image']; ?>" class="img-fluid rounded-circle" style="width: 80px; height: 80px;" alt="">
                             </td>
-                            
                             <td><p class="mb-0 mt-4"><?php echo $item['name']; ?></p></td>
                             <td><p class="mb-0 mt-4">Rp <?php echo number_format($item['price']); ?></p></td>
-                            
                             <td>
                                 <div class="input-group quantity mt-4" style="width: 100px;">
                                     <div class="input-group-btn">
-                                        <a href="update_quantity.php?id=<?php echo $item['product_id']; ?>&action=decrease" class="btn btn-sm btn-minus rounded-circle bg-light border">
-                                            <i class="fa fa-minus"></i>
-                                        </a>
+                                        <a href="update_quantity.php?id=<?php echo $item['product_id']; ?>&action=decrease" class="btn btn-sm btn-minus rounded-circle bg-light border"><i class="fa fa-minus"></i></a>
                                     </div>
                                     <input type="text" class="form-control form-control-sm text-center border-0" value="<?php echo $item['quantity']; ?>" readonly>
                                     <div class="input-group-btn">
-                                        <a href="update_quantity.php?id=<?php echo $item['product_id']; ?>&action=increase" class="btn btn-sm btn-plus rounded-circle bg-light border">
-                                            <i class="fa fa-plus"></i>
-                                        </a>
+                                        <a href="update_quantity.php?id=<?php echo $item['product_id']; ?>&action=increase" class="btn btn-sm btn-plus rounded-circle bg-light border"><i class="fa fa-plus"></i></a>
                                     </div>
                                 </div>
                             </td>
-                            
                             <td><p class="mb-0 mt-4">Rp <?php echo number_format($item['subtotal']); ?></p></td>
-                            
                             <td>
-                                <a href="update_quantity.php?id=<?php echo $item['product_id']; ?>&action=delete" class="btn btn-md rounded-circle bg-light border mt-4" onclick="return confirm('Hapus?')">
-                                    <i class="fa fa-times text-danger"></i>
-                                </a>
+                                <a href="update_quantity.php?id=<?php echo $item['product_id']; ?>&action=delete" class="btn btn-md rounded-circle bg-light border mt-4" onclick="return confirm('Hapus?')"><i class="fa fa-times text-danger"></i></a>
                             </td>
                         </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
-                
-                <div class="row g-4 justify-content-end">
-                    <div class="col-8"></div>
-                    <div class="col-sm-8 col-md-7 col-lg-6 col-xl-4">
+                <div class="row justify-content-end">
+                    <div class="col-lg-4">
                         <div class="bg-light rounded p-4">
                             <div class="d-flex justify-content-between mb-4">
-                                <h5 class="mb-0 me-4">Total:</h5>
-                                <p class="mb-0">Rp <?php echo number_format(getGrandTotal()); ?></p>
+                                <h5 class="mb-0">Total:</h5>
+                                <p class="mb-0">Rp <?php echo number_format(getCartTotal()); ?></p>
                             </div>
-                            <a href="checkout.php" class="btn btn-primary rounded-pill px-4 py-3 w-100">Checkout</a>
+                            <a href="checkout.php" class="btn btn-primary rounded-pill w-100">Checkout</a>
                         </div>
                     </div>
                 </div>
-
                 <?php endif; ?>
             </div>
         </div>
     </div>
-
 <?php require_once 'includes/footer.php'; ?>
