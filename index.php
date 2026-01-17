@@ -97,13 +97,15 @@ $current_page = 'home';
                                                             Rp<?php echo number_format($product['price']); ?>
                                                         </p>
                                                         
-                                                        <form action="add_to_cart.php" method="POST">
-                                                            <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
-                                                            <input type="hidden" name="quantity" value="1">
-                                                            <button type="submit" class="btn border border-secondary rounded-pill px-3 text-primary">
-                                                                <i class="fa fa-shopping-bag me-2 text-primary"></i> Beli
-                                                            </button>
-                                                        </form>
+<form action="add_to_cart.php" method="POST">
+    <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+    <input type="hidden" name="quantity" value="1">
+    
+    <!-- TAMBAHKAN class "add-to-cart-btn" di sini -->
+    <button type="submit" class="btn border border-secondary rounded-pill px-3 text-primary add-to-cart-btn">
+        <i class="fa fa-shopping-bag me-2 text-primary"></i> Beli
+    </button>
+</form>
 
                                                     </div>
                                                 </div>
@@ -180,13 +182,15 @@ $current_page = 'home';
                                     Rp<?php echo number_format($product['price']); ?>
                                 </p>
                                 
-                                <form action="add_to_cart.php" method="POST">
-                                    <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
-                                    <input type="hidden" name="quantity" value="1">
-                                    <button type="submit" class="btn border border-secondary rounded-pill px-3 text-primary">
-                                        <i class="fa fa-shopping-bag me-2 text-primary"></i> Beli
-                                    </button>
-                                </form>
+                               <form action="add_to_cart.php" method="POST">
+    <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+    <input type="hidden" name="quantity" value="1">
+    
+    <!-- TAMBAHKAN class "add-to-cart-btn" di sini -->
+    <button type="submit" class="btn border border-secondary rounded-pill px-3 text-primary add-to-cart-btn">
+        <i class="fa fa-shopping-bag me-2 text-primary"></i> Beli
+    </button>
+</form>
 
                             </div>
                         </div>

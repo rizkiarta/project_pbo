@@ -75,18 +75,19 @@ require_once 'includes/navbar.php';
                         <p class="mb-0 text-dark"><i class="fa fa-check-circle text-success me-2"></i>Stok Tersedia: <strong><?php echo $product['stock']; ?> kg</strong></p>
                     </div>
 
-                    <form action="add_to_cart.php" method="POST">
-                        <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
-                        
-                        <div class="input-group quantity mb-4" style="width: 150px;">
-                            <span class="input-group-text">Qty</span>
-                            <input type="number" name="quantity" class="form-control text-center" value="1" min="1" max="<?php echo $product['stock']; ?>">
-                        </div>
+<form action="add_to_cart.php" method="POST">
+    <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+    
+    <div class="input-group quantity mb-4" style="width: 150px;">
+        <span class="input-group-text">Qty</span>
+        <input type="number" name="quantity" class="form-control text-center" value="1" min="1" max="<?php echo $product['stock']; ?>">
+    </div>
 
-                        <button type="submit" class="btn btn-primary border-secondary rounded-pill px-5 py-3 text-white">
-                            <i class="fa fa-shopping-bag me-2"></i> Masukkan Keranjang
-                        </button>
-                    </form>
+    <!-- TAMBAHKAN class "add-to-cart-btn" di sini -->
+    <button type="submit" class="btn btn-primary border-secondary rounded-pill px-5 py-3 text-white add-to-cart-btn">
+        <i class="fa fa-shopping-bag me-2"></i> Masukkan Keranjang
+    </button>
+</form>
 
                 </div>
                 

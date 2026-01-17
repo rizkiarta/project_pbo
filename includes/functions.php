@@ -1,14 +1,9 @@
 <?php
-// includes/functions.php - VERSI FIX COLUMN ERROR
 require_once 'config.php';
 
 if (isset($connect)) {
     $conn = $connect;
 }
-
-// ==========================================
-// 1. FUNGSI USER
-// ==========================================
 
 function isLoggedIn() {
     return isset($_SESSION['user_id']);
