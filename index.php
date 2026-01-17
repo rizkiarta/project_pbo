@@ -237,15 +237,41 @@ $current_page = 'home';
                 <div class="position-relative">
                     <i class="fa fa-quote-right fa-2x text-secondary position-absolute" style="bottom: 30px; right: 0;"></i>
                     <div class="mb-4 pb-4 border-bottom border-secondary">
-                        <p class="mb-0">Lorem Ipsum is simply dummy text of the printing Ipsum has been the industry's standard dummy text ever since the 1500s,</p>
+                        <p class="mb-0">“Buahnya segar semua, tidak ada yang busuk. Pengiriman cepat dan packing rapi. Anak-anak di rumah suka banget. Pasti order lagi!”</p>
                     </div>
                     <div class="d-flex align-items-center flex-nowrap">
                         <div class="bg-secondary rounded">
-                            <img src="img/testimonial-1.jpg" class="img-fluid rounded" style="width: 100px; height: 100px;" alt="">
+                            <img src="img/Testimonial/Client1.jpg" class="img-fluid rounded" style="width: 100px; height: 120px;" alt="">
                         </div>
                         <div class="ms-4 d-block">
-                            <h4 class="text-dark">Client Name</h4>
-                            <p class="m-0 pb-3">Profession</p>
+                            <h4 class="text-dark">Nathania</h4>
+                            <p class="m-0 pb-3">Ibu Rumah Tangga</p>
+                            <div class="d-flex pe-5">
+                                <i class="fas fa-star text-primary"></i>
+                                <i class="fas fa-star text-primary"></i>
+                                <i class="fas fa-star text-primary"></i>
+                                <i class="fas fa-star text-primary"></i>
+                                <i class="fas fa-star text-primary"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Tambahkan item testimonial lain kalau ada -->
+             <!-- Testimonial items 2 -->
+             <div class="testimonial-item img-border-radius bg-light rounded p-4 mx-3">
+                <div class="position-relative">
+                    <i class="fa fa-quote-right fa-2x text-secondary position-absolute" style="bottom: 30px; right: 0;"></i>
+                    <div class="mb-4 pb-4 border-bottom border-secondary">
+                        <p class="mb-0">“Buah datang dalam kondisi segar dan bersih. Packing rapi, tidak ada yang rusak. Sangat puas belanja di sini!”</p>
+                    </div>
+                    <div class="d-flex align-items-center flex-nowrap">
+                        <div class="bg-secondary rounded">
+                            <img src="img/Testimonial/Client2.jpg" class="img-fluid rounded" style="width: 100px; height: 120px;" alt="">
+                        </div>
+                        <div class="ms-4 d-block">
+                            <h4 class="text-dark">Rina Oktaviani</h4>
+                            <p class="m-0 pb-3">Ibu Rumah Tangga</p>
                             <div class="d-flex pe-5">
                                 <i class="fas fa-star text-primary"></i>
                                 <i class="fas fa-star text-primary"></i>
@@ -257,7 +283,7 @@ $current_page = 'home';
                     </div>
                 </div>
             </div>
-            <!-- Tambahkan item testimonial lain kalau ada -->
+            
         </div>
     </div>
 </div>
