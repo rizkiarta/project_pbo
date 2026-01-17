@@ -2,28 +2,27 @@
 require_once 'includes/config.php';
 require_once 'includes/functions.php';
 require_once 'includes/head.php';
-require_once 'includes/spinner.php';
+// require_once 'includes/spinner.php'; // <--- SPINNER DIMATIKAN
 
-// Kalau sudah login, lempar ke index
 if (isset($_SESSION['user_id'])) {
     header("Location: index.php");
     exit;
 }
 
 $message = "";
-$msgType = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email']);
     $password = $_POST['password'];
 
-    // Fungsi ini sekarang PASTI JALAN karena $conn sudah ada di config.php
+    // Panggil fungsi login
+    // Karena config.php sudah punya $conn, fungsi ini pasti jalan
     if (loginUser($email, $password)) {
-        header("Location: index.php");
+        // Redirect pakai Javascript biar lebih kuat
+        echo "<script>window.location.href='index.php';</script>";
         exit;
     } else {
         $message = "Email atau password salah!";
-        $msgType = "danger";
     }
 }
 ?>
@@ -43,26 +42,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <h4 class="mb-4 text-center">Login Akun</h4>
                         
                         <?php if ($message): ?>
-                            <div class="alert alert-<?php echo $msgType; ?> alert-dismissible fade show" role="alert">
-                                <?php echo $message; ?>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                            </div>
+                            <div class="alert alert-danger"><?php echo $message; ?></div>
                         <?php endif; ?>
 
                         <form action="" method="POST">
-                            <div class="form-floating mb-3">
-                                <input type="email" class="form-control border-0" id="email" name="email" placeholder="Email" required>
-                                <label for="email">Email</label>
+                            <div class="mb-3">
+                                <input type="email" class="form-control" name="email" placeholder="Email" required>
                             </div>
-                            <div class="form-floating mb-3">
-                                <input type="password" class="form-control border-0" id="password" name="password" placeholder="Password" required>
-                                <label for="password">Password</label>
+                            <div class="mb-3">
+                                <input type="password" class="form-control" name="password" placeholder="Password" required>
                             </div>
-                            <button type="submit" class="btn btn-primary border-secondary rounded-pill py-3 px-5 w-100">Masuk</button>
+                            <button type="submit" class="btn btn-primary w-100 py-3">Masuk</button>
                         </form>
-                        
                         <div class="text-center mt-3">
-                            <p class="mb-0">Belum punya akun? <a href="register.php" class="text-primary fw-bold">Daftar disini</a></p>
+                            <a href="register.php">Belum punya akun? Daftar</a>
                         </div>
                     </div>
                 </div>
