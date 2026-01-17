@@ -1,8 +1,15 @@
 <?php
 require_once 'includes/config.php';
-require_once 'includes/head.php';
 require_once 'includes/functions.php';
-$current_page = 'home';
+require_once 'includes/head.php';
+
+// Cek Login: Jika belum login, tendang ke welcome.php
+if (!isLoggedIn()) {
+    header("Location: welcome.php");
+    exit;
+}
+
+ $current_page = 'home';
 ?>
 <?php include 'includes/navbar.php'; ?>
 
@@ -237,7 +244,7 @@ $current_page = 'home';
                 <div class="position-relative">
                     <i class="fa fa-quote-right fa-2x text-secondary position-absolute" style="bottom: 30px; right: 0;"></i>
                     <div class="mb-4 pb-4 border-bottom border-secondary">
-                        <p class="mb-0">Lorem Ipsum is simply dummy text of the printing Ipsum has been the industry's standard dummy text ever since the 1500s,</p>
+                        <p class="mb-0">Lorem Ipsum is simply dummy text of printing Ipsum has been the industry's standard dummy text ever since the 1500s,</p>
                     </div>
                     <div class="d-flex align-items-center flex-nowrap">
                         <div class="bg-secondary rounded">

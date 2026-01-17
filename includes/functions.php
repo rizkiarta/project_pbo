@@ -1,5 +1,67 @@
 <?php
 
+// ========== FUNGSI AUTH (LOGIN & REGISTER) ==========
+
+// Fungsi: Register User Baru
+function registerUser($name, $email, $password) {
+    global $connect;
+
+    // 1. Cek apakah email sudah terdaftar
+    $sql = "SELECT id FROM users WHERE email = ?";
+    $stmt = mysqli_prepare($connect, $sql);
+    mysqli_stmt_bind_param($stmt, "s", $email);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_store_result($stmt);
+
+    if (mysqli_stmt_num_rows($stmt) > 0) {
+        return false; // Email sudah ada
+    }
+    mysqli_stmt_close($stmt);
+
+    // 2. Enkripsi password
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+    // 3. Insert user baru
+    $sql = "INSERT INTO users (name, email, password, created_at) VALUES (?, ?, ?, NOW())";
+    $stmt = mysqli_prepare($connect, $sql);
+    mysqli_stmt_bind_param($stmt, "sss", $name, $email, $hashed_password);
+    
+    if (mysqli_stmt_execute($stmt)) {
+        return true; // Sukses
+    } else {
+        return false; // Gagal query
+    }
+}
+
+// Fungsi: Login User
+function loginUser($email, $password) {
+    global $connect;
+
+    // 1. Cari user berdasarkan email
+    $sql = "SELECT id, name, email, password, role FROM users WHERE email = ?";
+    $stmt = mysqli_prepare($connect, $sql);
+    mysqli_stmt_bind_param($stmt, "s", $email);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+
+    if ($row = mysqli_fetch_assoc($result)) {
+        // 2. Verifikasi password
+        if (password_verify($password, $row['password'])) {
+            // Set Session
+            $_SESSION['user_id'] = $row['id'];
+            $_SESSION['user_name'] = $row['name'];
+            $_SESSION['user_email'] = $row['email'];
+            $_SESSION['role'] = $row['role'];
+            
+            return true; // Login Berhasil
+        }
+    }
+    
+    return false; // Email salah / password salah
+}
+
+
+
 // Fungsi: Ambil semua produk (dengan optional filter kategori)
 function getProducts($limit = null, $category_slug = null, $offset = 0) {
     global $connect;
@@ -336,4 +398,130 @@ function isAdmin() {
     return isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
 }
 
+// ========== FUNGSI ORDER ===========
+
+// Fungsi: Buat Order Baru
+function createOrder($user_id, $customer_name, $phone, $address, $total_amount) {
+    global $connect;
+    
+    // 1. Insert ke tabel 'orders'
+    $status = 'pending'; 
+    $sql = "INSERT INTO orders (user_id, customer_name, phone, address, total_amount, status, created_at) 
+            VALUES (?, ?, ?, ?, ?, ?, NOW())";
+            
+    $stmt = mysqli_prepare($connect, $sql);
+    // Bind: i=integer, s=string, s=string, s=string, d=double, s=string
+    mysqli_stmt_bind_param($stmt, "isssds", $user_id, $customer_name, $phone, $address, $total_amount, $status);
+    mysqli_stmt_execute($stmt);
+    
+    $order_id = mysqli_insert_id($connect); // Ambil ID Order yang baru dibuat
+    
+    // 2. Ambil item keranjang dan simpan ke 'order_items'
+    $cart_items = getCartItems(); // Panggil fungsi keranjang yang sudah ada
+    
+    foreach ($cart_items as $item) {
+        $sql_item = "INSERT INTO order_items (order_id, product_id, quantity, price, subtotal) 
+                     VALUES (?, ?, ?, ?, ?)";
+        $stmt_item = mysqli_prepare($connect, $sql_item);
+        mysqli_stmt_bind_param($stmt_item, "iiidd", $order_id, $item['id'], $item['quantity'], $item['price'], $item['subtotal']);
+        mysqli_stmt_execute($stmt_item);
+    }
+    
+    // 3. Kosongkan keranjang
+    clearCart();
+    
+    return $order_id;
+}
+
+// Fungsi: Ambil semua pesanan user
+function getUserOrders($user_id) {
+    global $connect;
+    $sql = "SELECT * FROM orders WHERE user_id = ? ORDER BY created_at DESC";
+    $stmt = mysqli_prepare($connect, $sql);
+    mysqli_stmt_bind_param($stmt, "i", $user_id);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    
+    $orders = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $orders[] = $row;
+    }
+    return $orders;
+}
+
+// Fungsi: Ambil detail item dalam satu pesanan
+function getOrderItems($order_id) {
+    global $connect;
+    $sql = "SELECT oi.*, p.name, p.image 
+            FROM order_items oi 
+            JOIN products p ON oi.product_id = p.id 
+            WHERE oi.order_id = ?";
+    $stmt = mysqli_prepare($connect, $sql);
+    mysqli_stmt_bind_param($stmt, "i", $order_id);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    
+    $items = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $items[] = $row;
+    }
+    return $items;
+}
+
+// Fungsi: Batalkan Pesanan
+function cancelOrder($order_id, $user_id) {
+    global $connect;
+    
+    // Pastikan order milik user yang sedang login
+    $sql = "UPDATE orders SET status = 'cancelled' WHERE id = ? AND user_id = ?";
+    $stmt = mysqli_prepare($connect, $sql);
+    mysqli_stmt_bind_param($stmt, "ii", $order_id, $user_id);
+    
+    if (mysqli_stmt_execute($stmt)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+// Fungsi: Proses Pembayaran (Update Status jadi 'paid')
+function payOrder($order_id, $user_id) {
+    global $connect;
+    
+    // Pastikan order milik user
+    $sql = "UPDATE orders SET status = 'paid' WHERE id = ? AND user_id = ?";
+    $stmt = mysqli_prepare($connect, $sql);
+    mysqli_stmt_bind_param($stmt, "ii", $order_id, $user_id);
+    
+    if (mysqli_stmt_execute($stmt)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+// Fungsi: Update Status Jadi Selesai (Received)
+function completeOrder($order_id, $user_id) {
+    global $connect;
+    
+    // Kita lakukan cek sederhana: Update status jadi 'completed' jika ID dan User cocok.
+    // (Untuk sistem yang lebih ketat, biasanya cek dulu apakah statusnya 'shipped')
+    
+    $sql = "UPDATE orders SET status = 'completed' 
+            WHERE id = ? AND user_id = ?";
+            
+    $stmt = mysqli_prepare($connect, $sql);
+    
+    // Bind param: 'ii' berarti dua integer (order_id dan user_id)
+    mysqli_stmt_bind_param($stmt, "ii", $order_id, $user_id);
+    
+    if (mysqli_stmt_execute($stmt)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
 ?>
+
