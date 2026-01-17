@@ -1,14 +1,13 @@
 <?php
-// includes/functions.php - VERSI FINAL (LOGIN + CART + CHECKOUT)
+// includes/functions.php - VERSI FINAL + FIX TYPE ERROR
 require_once 'config.php';
 
-// Fix Koneksi ($conn vs $connect)
 if (isset($connect)) {
     $conn = $connect;
 }
 
 // ==========================================
-// 1. FUNGSI USER (LOGIN & REGISTER)
+// 1. FUNGSI USER
 // ==========================================
 
 function isLoggedIn() {
@@ -35,7 +34,6 @@ function registerUser($data) {
 function loginUser($email, $password) {
     global $conn;
     $email = mysqli_real_escape_string($conn, $email);
-    
     $query = "SELECT * FROM users WHERE email = '$email'";
     $result = mysqli_query($conn, $query);
 
@@ -84,30 +82,33 @@ function getProductById($id) {
 }
 
 // ==========================================
-// 3. FUNGSI CHECKOUT & ORDER (INI YANG TADI HILANG!)
+// 3. FUNGSI CHECKOUT (YANG TADI ERROR)
 // ==========================================
 
-// Fungsi Membuat Order Baru
-function createOrder($user_id, $data) {
+// SAYA UBAH CARA MENERIMA DATANYA (JADI ECERAN)
+function createOrder($user_id, $name, $phone, $address, $total_amount, $note = '') {
     global $conn;
-    $name    = mysqli_real_escape_string($conn, $data['name']);
-    $phone   = mysqli_real_escape_string($conn, $data['phone']);
-    $address = mysqli_real_escape_string($conn, $data['address']);
-    $note    = mysqli_real_escape_string($conn, $data['note']);
-    $total   = $data['total_amount'];
+    
+    // Amankan data inputan
+    $name    = mysqli_real_escape_string($conn, $name);
+    $phone   = mysqli_real_escape_string($conn, $phone);
+    $address = mysqli_real_escape_string($conn, $address);
+    $note    = mysqli_real_escape_string($conn, $note);
+    $total   = (float)$total_amount;
+    
     $status  = 'pending';
     $date    = date('Y-m-d H:i:s');
 
+    // Masukkan ke database
     $query = "INSERT INTO orders (user_id, customer_name, phone, address, note, total_amount, status, created_at)
               VALUES ('$user_id', '$name', '$phone', '$address', '$note', '$total', '$status', '$date')";
     
     if (mysqli_query($conn, $query)) {
-        return mysqli_insert_id($conn); // Balikkan ID order yang baru dibuat
+        return mysqli_insert_id($conn); // Berhasil, kembalikan ID Order
     }
-    return false;
+    return false; // Gagal
 }
 
-// Fungsi Memasukkan Barang ke Order
 function createOrderItem($order_id, $product_id, $quantity, $price) {
     global $conn;
     $subtotal = $quantity * $price;
@@ -116,13 +117,11 @@ function createOrderItem($order_id, $product_id, $quantity, $price) {
     return mysqli_query($conn, $query);
 }
 
-// Fungsi Membersihkan Keranjang setelah Checkout
 function clearCart($user_id) {
     global $conn;
     return mysqli_query($conn, "DELETE FROM cart WHERE user_id = '$user_id'");
 }
 
-// Fungsi Riwayat Order
 function getUserOrders($user_id) {
     global $conn;
     $query = "SELECT * FROM orders WHERE user_id = '$user_id' ORDER BY created_at DESC";
@@ -146,7 +145,7 @@ function getOrderItems($order_id) {
 }
 
 // ==========================================
-// 4. FUNGSI KERANJANG (CART)
+// 4. FUNGSI KERANJANG
 // ==========================================
 
 function getCartItems() {
