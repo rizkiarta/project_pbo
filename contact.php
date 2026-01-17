@@ -5,25 +5,21 @@ $current_page = 'contact'; // Untuk active menu di navbar
 ?>
 <?php require_once 'includes/navbar.php'; ?>
 
-<!-- Page Header Start -->
 <div class="container-fluid page-header py-5 mb-5">
     <div class="container py-5">
-        <h1 class="display-3 text-white mb-3 animated slideInDown">Contact Us</h1>
+        <h1 class="display-3 text-white mb-3 animated slideInDown">Hubungi Kami</h1>
         <nav aria-label="breadcrumb animated slideInDown">
             <ol class="breadcrumb text-uppercase">
-                <li class="breadcrumb-item"><a href="index.php" class="text-white">Home</a></li>
-                <li class="breadcrumb-item text-white active" aria-current="page">Contact</li>
+                <li class="breadcrumb-item"><a href="index.php" class="text-white">Beranda</a></li>
+                <li class="breadcrumb-item text-white active" aria-current="page">Kontak</li>
             </ol>
         </nav>
     </div>
 </div>
-<!-- Page Header End -->
-
-<!-- Contact Start -->
 <div class="container-xxl py-5">
     <div class="container">
         <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-            <h6 class="section-title bg-white text-center text-primary px-3">Contact Us</h6>
+            <h6 class="section-title bg-white text-center text-primary px-3">Kontak Kami</h6>
             <h1 class="mb-5">Hubungi Kami Untuk Pertanyaan</h1>
         </div>
         <div class="row g-4">
@@ -47,57 +43,53 @@ $current_page = 'contact'; // Untuk active menu di navbar
                         <div class="bg-light d-flex flex-column justify-content-center p-4 text-center rounded">
                             <i class="fa fa-envelope fa-3x text-primary mb-4"></i>
                             <h5>Email</h5>
-                            <p class="mb-0">DariKebun@.com</p>
+                            <p class="mb-0">info@darikebun.com</p>
                         </div>
                     </div>
                 </div>
             </div>
-             <!-- WHY CONTACT US START -->
-              <br>
+
+            <div class="col-12 mt-5">
                 <div class="mb-4 text-center">
-                    <h1 class="text-primary mb-4">Why Contact Us?</h1>
-                        <div class="row justify-content-center">
-                            <div class="col-12 col-md-4 mb-2 fs-5 fw-bold ">
-                                <i class="fa fa-check-circle text-primary me-2"></i>
-                                Respon cepat (≤ 1×24 jam)
-                            </div>
-                            <div class="col-12 col-md-4 mb-2 fs-5 fw-bold">
-                                <i class="fa fa-check-circle text-primary me-2"></i>
-                                Konsultasi gratis
-                            </div>
-                            <div class="col-12 col-md-4 mb-2 fs-5 fw-bold">
-                                <i class="fa fa-check-circle text-primary me-2"></i>
-                                Data Anda aman & terjaga
-                            </div>
+                    <h2 class="text-primary mb-4">Mengapa Menghubungi Kami?</h2>
+                    <div class="row justify-content-center">
+                        <div class="col-12 col-md-4 mb-2 fs-5 fw-bold ">
+                            <i class="fa fa-check-circle text-primary me-2"></i>
+                            Respon Cepat (≤ 1×24 jam)
+                        </div>
+                        <div class="col-12 col-md-4 mb-2 fs-5 fw-bold">
+                            <i class="fa fa-check-circle text-primary me-2"></i>
+                            Konsultasi Gratis
+                        </div>
+                        <div class="col-12 col-md-4 mb-2 fs-5 fw-bold">
+                            <i class="fa fa-check-circle text-primary me-2"></i>
+                            Data Anda Aman & Terjaga
                         </div>
                     </div>
-                <!-- WHY CONTACT US END -->
-
+                </div>
+            </div>
             <div class="col-md-6 wow fadeIn" data-wow-delay="0.1s">
-                <!-- Google Maps Embed -->
                 <iframe
                     class="rounded w-100"
                     style="height: 450px;"
-                    src="https://www.google.com/maps?q=Politeknik+Negeri+Lampung&z=15&output=embed"
+                    src="https://maps.google.com/maps?q=Bandar%20Lampung&t=&z=13&ie=UTF8&iwloc=&output=embed"
                     loading="lazy"
                     referrerpolicy="no-referrer-when-downgrade">
                 </iframe>
-                    <a
-                href="https://www.google.com/maps?q=Politeknik+Negeri+Lampung"
-                target="_blank"
-                class="btn btn-outline-primary mt-3">
-                Lihat Lokasi di Google Maps
-                     </a>
-                 </div>
+                <a
+                    href="https://maps.google.com/maps?q=Bandar%20Lampung"
+                    target="_blank"
+                    class="btn btn-outline-primary mt-3 w-100">
+                    Lihat Lokasi di Google Maps
+                </a>
+            </div>
+
             <div class="col-md-6">
                 <div class="wow fadeInUp" data-wow-delay="0.2s">
-        <p class="mb-4">
-            Silakan isi form di bawah ini untuk menghubungi kami. Kami akan merespons secepat mungkin!
-        </p>
+                    <p class="mb-4">
+                        Silakan isi formulir di bawah ini untuk menghubungi kami. Tim kami akan merespons pesan Anda secepat mungkin!
+                    </p>
 
-        <form action="send_message.php" method="post">
-
-                    <p class="mb-4">Silakan isi form di bawah ini untuk menghubungi kami. Kami akan merespons secepat mungkin!</p>
                     <form action="send_message.php" method="post">
                         <div class="row g-3">
                             <div class="col-md-6">
@@ -134,6 +126,4 @@ $current_page = 'contact'; // Untuk active menu di navbar
         </div>
     </div>
 </div>
-<!-- Contact End -->
-
 <?php require_once 'includes/footer.php'; ?>
