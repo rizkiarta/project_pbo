@@ -1,6 +1,4 @@
-<?php
-// includes/footer.php
-?>
+
 
     <!-- Footer Start - FULL WIDTH -->
     <div class="container-fluid bg-dark text-white-50 footer pt-5 mt-5 px-0">

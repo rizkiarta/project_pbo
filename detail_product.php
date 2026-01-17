@@ -70,20 +70,6 @@ require_once 'includes/navbar.php';
                                 <i class="fa fa-star"></i>
                             </div>
                             <p class="mb-4"><?php echo htmlspecialchars($product['description'] ?? 'Produk organik segar berkualitas tinggi.'); ?></p>
-                            
-                            <div class="input-group quantity mb-5" style="width: 100px;">
-                                <div class="input-group-btn">
-                                    <button class="btn btn-sm btn-minus rounded-circle bg-light border">
-                                        <i class="fa fa-minus"></i>
-                                    </button>
-                                </div>
-                                <input type="text" class="form-control form-control-sm text-center border-0" value="1">
-                                <div class="input-group-btn">
-                                    <button class="btn btn-sm btn-plus rounded-circle bg-light border">
-                                        <i class="fa fa-plus"></i>
-                                    </button>
-                                </div>
-                            </div>
                             <a href="#" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary add-to-cart-btn"
                                data-product-id="<?php echo $product['id']; ?>">
                                 <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
