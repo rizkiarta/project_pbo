@@ -67,6 +67,21 @@
             </div>
         </div>
     </div>
+        <div class="container-fluid copyright bg-dark py-4 px-0">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    <span class="text-light">
+                        <a href="#"><i class="fas fa-copyright text-light me-2"></i>DariKebun</a>, Hak Cipta Dilindungi.
+                    </span>
+                </div>
+                <div class="col-md-6 text-center text-md-end text-white">
+                    Didesain Oleh <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a> 
+                    Didistribusikan Oleh <a class="border-bottom" href="https://themewagon.com">ThemeWagon</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <!-- Footer End -->
 
