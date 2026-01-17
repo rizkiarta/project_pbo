@@ -53,35 +53,42 @@ $current_page = 'contact'; // Untuk active menu di navbar
                 </div>
             </div>
              <!-- WHY CONTACT US START -->
+              <br>
                 <div class="mb-4 text-center">
                     <h1 class="text-primary mb-4">Why Contact Us?</h1>
-
-                    <div class="row justify-content-center">
-                        <div class="col-12 col-md-4 mb-2">
-                            <i class="fa fa-check-circle text-primary me-2"></i>
-                            Respon cepat (≤ 1×24 jam)
-                        </div>
-                        <div class="col-12 col-md-4 mb-2">
-                            <i class="fa fa-check-circle text-primary me-2"></i>
-                            Konsultasi gratis
-                        </div>
-                        <div class="col-12 col-md-4 mb-2">
-                            <i class="fa fa-check-circle text-primary me-2"></i>
-                            Data Anda aman & terjaga
+                        <div class="row justify-content-center">
+                            <div class="col-12 col-md-4 mb-2 fs-5 fw-bold ">
+                                <i class="fa fa-check-circle text-primary me-2"></i>
+                                Respon cepat (≤ 1×24 jam)
+                            </div>
+                            <div class="col-12 col-md-4 mb-2 fs-5 fw-bold">
+                                <i class="fa fa-check-circle text-primary me-2"></i>
+                                Konsultasi gratis
+                            </div>
+                            <div class="col-12 col-md-4 mb-2 fs-5 fw-bold">
+                                <i class="fa fa-check-circle text-primary me-2"></i>
+                                Data Anda aman & terjaga
+                            </div>
                         </div>
                     </div>
-                </div>
                 <!-- WHY CONTACT US END -->
 
             <div class="col-md-6 wow fadeIn" data-wow-delay="0.1s">
                 <!-- Google Maps Embed -->
-                <iframe class="rounded w-100" 
-                        style="height: 450px;"
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3971.987123456789!2d105.267123456789!3d-5.383123456789!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e40daf1e8d12345%3A0x1234567890abcdef!2sPoliteknik%20Negeri%20Lampung!5e0!3m2!1sid!2sid!4v1690000000000!5m2!1sid!2sid" 
-                        loading="lazy" 
-                        referrerpolicy="no-referrer-when-downgrade">
+                <iframe
+                    class="rounded w-100"
+                    style="height: 450px;"
+                    src="https://www.google.com/maps?q=Politeknik+Negeri+Lampung&z=15&output=embed"
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
                 </iframe>
-            </div>
+                    <a
+                href="https://www.google.com/maps?q=Politeknik+Negeri+Lampung"
+                target="_blank"
+                class="btn btn-outline-primary mt-3">
+                Lihat Lokasi di Google Maps
+                     </a>
+                 </div>
             <div class="col-md-6">
                 <div class="wow fadeInUp" data-wow-delay="0.2s">
         <p class="mb-4">
