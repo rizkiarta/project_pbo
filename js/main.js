@@ -42,7 +42,7 @@
         smartSpeed: 2000,
         center: false,
         dots: true,
-        loop: true,
+        loop: false,
         margin: 25,
         nav: true,
         navText: [
