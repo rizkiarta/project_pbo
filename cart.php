@@ -8,7 +8,6 @@ require_once 'includes/navbar.php';
 
 <body>
 
-    <!-- Single Page Header start -->
     <div class="container-fluid page-header py-5 mb-5">
         <div class="container py-5">
             <h1 class="display-3 text-white mb-3 animated slideInDown">Cart</h1>
@@ -20,10 +19,6 @@ require_once 'includes/navbar.php';
             </nav>
         </div>
     </div>
-    <!-- Single Page Header End -->
-
-
-    <!-- Cart Page Start -->
     <div class="container-fluid py-5">
         <div class="container py-5">
             <div class="table-responsive">
@@ -72,24 +67,27 @@ require_once 'includes/navbar.php';
                                     </td>
                                     <td>
                                         <div class="input-group quantity mt-4" style="width: 100px;">
+                                            
                                             <div class="input-group-btn">
-                                                <button class="btn btn-sm btn-minus rounded-circle bg-light border"
-                                                    onclick="updateQuantity(<?php echo $item['id']; ?>, -1, this)">
+                                                <a href="update_quantity.php?id=<?php echo $item['id']; ?>&action=decrease" 
+                                                   class="btn btn-sm btn-minus rounded-circle bg-light border">
                                                     <i class="fa fa-minus"></i>
-                                                </button>
+                                                </a>
                                             </div>
+
                                             <input type="text" class="form-control form-control-sm text-center border-0 quantity-display"
                                                 value="<?php echo $item['quantity']; ?>" readonly>
+
                                             <div class="input-group-btn">
-                                                <button class="btn btn-sm btn-plus rounded-circle bg-light border"
-                                                    onclick="updateQuantity(<?php echo $item['id']; ?>, 1, this)">
+                                                <a href="update_quantity.php?id=<?php echo $item['id']; ?>&action=increase" 
+                                                   class="btn btn-sm btn-plus rounded-circle bg-light border">
                                                     <i class="fa fa-plus"></i>
-                                                </button>
+                                                </a>
                                             </div>
+
                                         </div>
                                     </td>
 
-                                    <!-- Subtotal cell -->
                                     <td class="mb-0 mt-4 fw-bold subtotal-display">
                                         Rp <?php echo number_format($item['subtotal']); ?>
                                     </td>
@@ -113,8 +111,7 @@ require_once 'includes/navbar.php';
                             <h1 class="display-6 mb-4">Cart <span class="fw-normal">Total</span></h1>
                             <div class="d-flex justify-content-between mb-4">
                                 <h5 class="mb-0 me-4">Subtotal:</h5>
-                                <!-- Hapus class cart-total-display, ganti dengan id khusus -->
-                                <p class="mb-0" id="sidebar-subtotal">Rp <?php echo number_format($cart_total); ?></p>
+                                <p class="mb-0">Rp <?php echo number_format($cart_total); ?></p>
                             </div>
                             <div class="d-flex justify-content-between">
                                 <h5 class="mb-0 me-4">Shipping</h5>
@@ -125,8 +122,7 @@ require_once 'includes/navbar.php';
                             <hr>
                             <div class="d-flex justify-content-between">
                                 <h5 class="mb-0 me-4">Total:</h5>
-                                <!-- Hapus class cart-total-display, ganti dengan id khusus -->
-                                <p class="mb-0 fw-bold" id="sidebar-grand-total">Rp <?php echo number_format($grand_total); ?></p>
+                                <p class="mb-0 fw-bold">Rp <?php echo number_format($grand_total); ?></p>
                             </div>
                         </div>
                         <div class="py-4 text-center">
@@ -139,8 +135,6 @@ require_once 'includes/navbar.php';
             </div>
         </div>
     </div>
-    <!-- Cart Page End -->
-
     <?php
     require_once 'includes/footer.php';
     ?>
