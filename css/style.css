@@ -73,6 +73,16 @@
     background: var(--bs-secondary) !important;
     color: var(--bs-white) !important;
 }
+.btn.border-primary {
+    transition: 0.5s;
+    background: var(--bs-primary) !important;
+    color: var(--bs-white);
+}
+
+.btn.border-primary:hover {
+    background: var(--bs-light) !important;
+    color: var(--bs-primary) !important;
+}
 
 /*** Topbar Start ***/
 .fixed-top {
@@ -204,14 +214,14 @@
 @media (min-width: 992px) {
     .hero-header,
     .page-header {
-        margin-top: 100px !important;
+        margin-top: 50px !important;
     }
 }
 
 @media (max-width: 992px) {
     .hero-header,
     .page-header {
-        margin-top: 70px !important;
+        margin-top: 10px !important;
     }
 }
 /*** Hero Header end ***/

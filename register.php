@@ -54,16 +54,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <body>
-    <div class="container py-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6 bg-light p-4 rounded">
-                <h3 class="text-center mb-4">Register Detektif</h3>
-                
-                <?php if ($message): ?>
-                    <div class="alert alert-danger"><?php echo $message; ?></div>
-                <?php endif; ?>
+        <div class="container mt-5">
+            <div class="text-center">
+                <a href="welcome.php" class="">
+                    <h1 class="text-primary fw-bold">DariKebun</h1>
+                </a>
+            </div>
+        </div>
+    <div class="container-fluid page-header py-5">
+        <div class="container">
+            <h1 class="display-3 text-white mb-3 animated slideInDown">Daftar</h1>
+        </div>
+    </div>
 
-                <form action="" method="POST">
+    <div class="container-fluid py-0 mb-4">
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-5">
+                    <div class="bg-light rounded p-5">
+                        <h4 class="mb-4 text-center fw-bold">Daftar Akun</h4>
+
+                        <?php if ($message): ?>
+                            <div class="alert alert-danger"><?php echo $message; ?></div>
+                        <?php endif; ?>
+
+<form action="" method="POST">
                     <div class="mb-3">
                         <label>Nama</label>
                         <input type="text" name="name" class="form-control" required>
@@ -88,12 +103,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <label>Ulangi Password</label>
                         <input type="password" name="confirm_password" class="form-control" required>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100">DAFTAR</button>
+                    <button type="submit" class="btn btn-primary w-100 text-light">Daftar</button>
                 </form>
-                <div class="mt-3 text-center">
-                    <a href="login.php">Login</a>
+                        <div class="text-center mt-4">
+                            Sudah punya akun?
+                            <a href="login.php" class="fw-bold">Masuk</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    <div class="container-fluid copyright bg-dark py-4 mb-0">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    <span class="text-light">
+                        <a href="#"><i class="fas fa-copyright text-light me-2"></i>DariKebun</a>, Hak Cipta Dilindungi.
+                    </span>
+                </div>
+                <div class="col-md-6 text-center text-md-end text-white">
+                    Didesain Oleh <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a> 
+                    Didistribusikan Oleh <a class="border-bottom" href="https://themewagon.com">ThemeWagon</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/lightbox/js/lightbox.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+    <script src="js/main.js"></script>
+
 </body>
+</html>
